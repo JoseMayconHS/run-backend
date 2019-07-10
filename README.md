@@ -11,9 +11,9 @@ API developed in NodeJs (Back-end of Run-Front-end)
 - API `express`
 - Authentications `jsonwebtoken`
 - Database  `mysql2`
-- encryption `bcryptjs`
-- understand the requisitions `body-parser`
-- make external access `cors`
+- Encryption `bcryptjs`
+- Understand the requisitions `body-parser`
+- Make external access `cors`
 
 
 # Steps
