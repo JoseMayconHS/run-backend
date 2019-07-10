@@ -1,0 +1,29 @@
+{
+	"pilots": [
+		{ "name": "Letty", "genre": "F", "country": "EUA", "nvl": 41, "src": "letty" },
+		{ "name": "Bryan", "genre": "M", "country": "EUA", "nvl": 48, "src": "bryan" },
+		{ "name": "Dominic", "genre": "M", "country": "EUA", "nvl": 48, "src": "don" },
+		{ "name": "Mia", "genre": "F", "country": "EUA", "nvl": 33, "src": "mia" },
+		{ "name": "Rome", "genre": "M", "country": "EUA", "nvl": 44, "src": "rome" },
+		{ "name": "10k", "genre": "M", "country": "EUA", "nvl": 13, "src": "10k" },
+		{ "name": "Kassandra", "genre": "F", "country": "EUA", "nvl": 9,  "src":"kassandra" },
+		{ "name": "Eddy", "genre": "F", "country": "EUA", "nvl": 15, "src": "eddy" },
+		{ "name": "Dock", "genre": "M", "country": "EUA", "nvl": 22, "src": "dock" },
+		{ "name": "Murphy", "genre": "M", "country": "EUA", "nvl": 25, "src": "murphy" },
+		{ "name": "Warren", "genre": "F", "country": "EUA", "nvl": 27, "src": "warren" },
+		{ "name": "Alerquina", "genre": "F", "country": "EUA", "nvl": 29, "src": "alerquina" },
+		{ "name": "Viuva Negra", "genre": "F", "country": "EUA", "nvl": 33, "src": "viuvanegra" },
+		{ "name": "Aquaman", "genre": "M", "country": "EUA", "nvl": 19, "src": "aquaman" },
+		{ "name": "Capítão America", "genre": "M", "country": "EUA", "nvl": 30, "src": "capitaoamerica" },
+		{ "name": "Tonny Stark", "genre": "M", "country": "EUA", "nvl": 35, "src": "homemdeferro" },
+		{ "name": "Super Man", "genre": "M", "country": "EUA", "nvl": 15, "src": "superman" },
+		{ "name": "Batman", "genre": "M", "country": "EUA", "nvl": 44, "src": "batman" },
+		{ "name": "Maravilha", "genre": "F", "country": "EUA", "nvl": 21, "src": "mulhermaravilha" },
+		{ "name": "Robin", "genre": "M", "country": "EUA", "nvl": 18, "src": "robin" },
+		{ "name": "The Rock", "genre": "M", "country": "EUA", "nvl": 38, "src": "therock" },
+		{ "name": "Ayrton Senna", "genre": "M", "country": "BRA", "nvl": 50, "src": "ayrton" },
+		{ "name": "Vettel", "genre": "M", "country": "EUA", "nvl": 45, "src": "vettel" },
+		{ "name": "Hamilton", "genre": "M", "country": "EUA", "nvl": 48, "src": "hamilton" },
+		{ "name": "Felipe Massa", "genre": "M", "country": "BRA", "nvl": 43, "src": "massa" }
+	]
+}
