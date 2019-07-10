@@ -7,7 +7,7 @@ module.exports = {
 
     const result = await update(table, settings, { id })
 
-    if (!result.status) return res.status(304).json({ result })
+    if (!result.status) return res.status(200).json({ result })
 
     res.status(200).json({ result })
   }

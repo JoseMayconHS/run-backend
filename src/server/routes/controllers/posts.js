@@ -59,7 +59,7 @@ module.exports = {
       
       let result = await insert(table, getFields(table), values)
   
-      if (!result.status) return res.status(409).json(result)
+      if (!result.status) return res.status(200).json(result)
   
       if (result.status && table === 'users') {
         const newUser = await selectWhere('users', { email: req.body.email }, 'id')
@@ -67,7 +67,7 @@ module.exports = {
         result.message = gerarToken({ _id: newUser[0].id }, secret)
       }
   
-      res.status(201).json({ status: result.status, message: result.message })
+      res.status(200).json({ status: result.status, message: result.message })
     } catch(e) {
       res.status(500).send()
     }
@@ -77,9 +77,9 @@ module.exports = {
 
     const result = await sign(email)
 
-    if (!result.status) return res.status(412).json(result)
+    if (!result.status) return res.status(200).json(result)
 
-    if (!await bcryptjs.compare(password, result.message.password)) return res.status(412).json({ status: false, message: 'Senha inválida' })
+    if (!await bcryptjs.compare(password, result.message.password)) return res.status(200).json({ status: false, message: 'Senha inválida' })
 
     const token = gerarToken({ _id: result.message.id })
 
@@ -90,7 +90,7 @@ module.exports = {
 
     verifyToken(token, async validation => {
       try {
-        if (!validation.status) return res.status(401).json(validation)
+        if (!validation.status) return res.status(200).json(validation)
 
         const user = await selectWhere('users', { id: validation.message }, '*')
 
