@@ -129,7 +129,7 @@ Returns the state, if true, the insert was successful, and a message.
              result.message = gerarToken({ _id: newUser[0].id }, secret)
            }
     
-           res.status(201).json({ status: result.status, message: result.message })
+           res.status(200).json({ status: result.status, message: result.message })
         } catch(e) {
            res.status(500).send()
         }
