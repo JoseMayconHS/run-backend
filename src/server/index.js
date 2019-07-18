@@ -2,9 +2,18 @@ const express = require('express')
 const body_parser = require('body-parser')
 const cors = require('cors')
 
+const { middlewarer } = require('../services/authentications/token')
+
 const app = express()
 app.use(cors())
 const port = process.env.PORT || 3001
+
+app.use('/files', express.static('src/public'))
+app.use('/api/v2/auth', middlewarer)
+
+app.get('/api/v2/auth/test', (req, res) => {
+  res.send({ status: true })
+})
 
 app.use(body_parser.urlencoded({ extended: true }))
 app.use(body_parser.json())

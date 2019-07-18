@@ -1,4 +1,4 @@
-const { remove } = require('../../../services/database/sql')
+const { remove } = require('../../../services/database/sql/api-v1')
 
 module.exports = {
   async doRemove(req, res) {

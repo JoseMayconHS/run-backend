@@ -1,0 +1,854 @@
+{
+  "engines": [
+    {
+      "name": "v1 Pure",
+      "exchange": 4,
+      "exchange_rates": { "1": 0.007, "2": 0.005, "3": 0.0006, "4": 0.0003 },
+      "speed": 30,
+      "acceleration": 10,
+      "resistance": 2,
+      "turbo": 1,
+      "price": 1,
+      "update": {
+        "speed": 1,
+        "acceleration": 0.5,
+        "resistance": 0.2,
+        "turbo": 0.1,
+        "price": 7000
+      }
+    },
+    {
+      "name": "v2 Pure",
+      "exchange": 4,
+      "exchange_rates": { "1": 0.007, "2": 0.005, "3": 0.001, "4": 0.0004 },
+      "speed": 33,
+      "acceleration": 12,
+      "resistance": 2,
+      "turbo": 1,
+      "price": 20000,
+      "update": {
+        "speed": 2,
+        "acceleration": 0.5,
+        "resistance": 0.2,
+        "turbo": 0.1,
+        "price": 14000
+      }
+    },
+    {
+      "name": "v3 Pure",
+      "exchange": 5,
+      "exchange_rates": { "1": 0.008, "2": 0.006, "3": 0.004, "4": 0.0009, "5": 0.0005 },
+      "speed": 40,
+      "acceleration": 15,
+      "resistance": 3,
+      "turbo": 1,
+      "price": 40000,
+      "update": {
+        "speed": 2,
+        "acceleration": 0.5,
+        "resistance": 0.5,
+        "turbo": 0.1,
+        "price": 21000
+      }
+    },
+    {
+      "name": "v4 Pure",
+      "exchange": 5,
+      "exchange_rates": { "1": 0.008, "2": 0.006, "3": 0.003, "4": 0.0009, "5": 0.0005 },
+      "speed": 45,
+      "acceleration": 19,
+      "resistance": 3,
+      "turbo": 1,
+      "price": 60000,
+      "update": {
+        "speed": 2.5,
+        "acceleration": 1,
+        "resistance": 0.5,
+        "turbo": 0.1,
+        "price": 28000
+      }
+    },
+    {
+      "name": "v5 Pure",
+      "exchange": 5,
+      "exchange_rates": { "1": 0.008, "2": 0.005, "3": 0.001, "4": 0.0008, "5": 0.0005 },
+      "speed": 50,
+      "acceleration": 23,
+      "resistance": 3,
+      "turbo": 1,
+      "price": 80000,
+      "update": {
+        "speed": 2.5,
+        "acceleration": 1.5,
+        "resistance": 1,
+        "turbo": 0.2,
+        "price": 35000
+      }
+    },
+    {
+      "name": "v6 Pure",
+      "exchange": 6,
+      "exchange_rates": { "1": 0.009, "2": 0.006, "3": 0.003, "4": 0.0009, "5": 0.0007, "6": 0.0006 },
+      "speed": 60,
+      "acceleration": 30,
+      "resistance": 4,
+      "turbo": 2,
+      "price": 100000,
+      "update": {
+        "speed": 3,
+        "acceleration": 1.5,
+        "resistance": 1,
+        "turbo": 0.5,
+        "price": 42000
+      }
+    },
+    {
+      "name": "v7 Pure",
+      "exchange": 6,
+      "exchange_rates": { "1": 0.009, "2": 0.005, "3": 0.002, "4": 0.0009, "5": 0.0008, "6": 0.0006 },
+      "speed": 70,
+      "acceleration": 39,
+      "resistance": 4,
+      "turbo": 2,
+      "price": 120000,
+      "update": {
+        "speed": 3.5,
+        "acceleration": 2,
+        "resistance": 1,
+        "turbo": 0.5,
+        "price": 49000
+      }
+    },
+    {
+      "name": "v8 Pure",
+      "exchange": 7,
+      "exchange_rates": { "1": 0.01, "2": 0.008, "3": 0.006, "4": 0.002, "5": 0.0009, "6": 0.0008, "7": 0.0007 },
+      "speed": 90,
+      "acceleration": 50,
+      "resistance": 6,
+      "turbo": 3,
+      "price": 140000,
+      "update": {
+        "speed": 4,
+        "acceleration": 2.5,
+        "resistance": 1.5,
+        "turbo": 0.5,
+        "price": 56000
+      }
+    },
+    {
+      "name": "v9 Pure",
+      "exchange": 7,
+      "exchange_rates": { "1": 0.01, "2": 0.008, "3": 0.006, "4": 0.002, "5": 0.0009, "6": 0.0008, "7": 0.0007 },
+      "speed": 110,
+      "acceleration": 61,
+      "resistance": 6,
+      "turbo": 3,
+      "price": 160000,
+      "update": {
+        "speed": 4.5,
+        "acceleration": 3,
+        "resistance": 2,
+        "turbo": 0.5,
+        "price": 63000
+      }
+    },
+    {
+      "name": "v10 Pure",
+      "exchange": 8,
+      "exchange_rates": { "1": 0.03, "2": 0.01, "3": 0.009, "4": 0.008, "5": 0.007, "6": 0.005, "7": 0.003, "8": 0.001 },
+      "speed": 150,
+      "acceleration": 80,
+      "resistance": 7,
+      "turbo": 4,
+      "price": 180000,
+      "update": {
+        "speed": 5,
+        "acceleration": 3.5,
+        "resistance": 2.5,
+        "turbo": 1,
+        "price": 70000
+      }
+    },
+    {
+      "name": "v1 Super",
+      "exchange": 4,
+      "exchange_rates": { "1": 0.007, "2": 0.005, "3": 0.0006, "4": 0.0003 },
+      "speed": 35,
+      "acceleration": 15,
+      "resistance": 2,
+      "turbo": 2,
+      "price": 50000,
+      "update": {
+        "speed": 2,
+        "acceleration": 1,
+        "resistance": 0.5,
+        "turbo": 0.2,
+        "price": 10000
+      }
+    },
+    {
+      "name": "v2 Super",
+      "exchange": 4,
+      "exchange_rates": { "1": 0.007, "2": 0.005, "3": 0.001, "4": 0.0004 },
+      "speed": 44,
+      "acceleration": 19,
+      "resistance": 2,
+      "turbo": 2,
+      "price": 100000,
+      "update": {
+        "speed": 3,
+        "acceleration": 2,
+        "resistance": 0.5,
+        "turbo": 0.5,
+        "price": 20000
+      }
+    },
+    {
+      "name": "v3 Super",
+      "exchange": 5,
+      "exchange_rates": { "1": 0.008, "2": 0.006, "3": 0.004, "4": 0.0009, "5": 0.0005 },
+      "speed": 56,
+      "acceleration": 25,
+      "resistance": 3,
+      "turbo": 3,
+      "price": 150000,
+      "update": {
+        "speed": 4.5,
+        "acceleration": 3,
+        "resistance": 2,
+        "turbo": 0.5,
+        "price": 30000
+      }
+    },
+    {
+      "name": "v4 Super",
+      "exchange": 5,
+      "exchange_rates": { "1": 0.008, "2": 0.006, "3": 0.003, "4": 0.0009, "5": 0.0005 },
+      "speed": 67,
+      "acceleration": 38,
+      "resistance": 3,
+      "turbo": 3,
+      "price": 200000,
+      "update": {
+        "speed": 6,
+        "acceleration": 5,
+        "resistance": 2,
+        "turbo": 1,
+        "price": 40000
+      }
+    },
+    {
+      "name": "v5 Super",
+      "exchange": 5,
+      "exchange_rates": { "1": 0.008, "2": 0.005, "3": 0.001, "4": 0.0008, "5": 0.0005 },
+      "speed": 80,
+      "acceleration": 49,
+      "resistance": 3,
+      "turbo": 3,
+      "price": 250000,
+      "update": {
+        "speed": 6,
+        "acceleration": 5,
+        "resistance": 2.5,
+        "turbo": 1.5,
+        "price": 50000
+      }
+    },
+    {
+      "name": "v6 Super",
+      "exchange": 6,
+      "exchange_rates": { "1": 0.009, "2": 0.006, "3": 0.003, "4": 0.0009, "5": 0.0007, "6": 0.0006 },
+      "speed": 110,
+      "acceleration": 65,
+      "resistance": 4,
+      "turbo": 3,
+      "price": 300000,
+      "update": {
+        "speed": 6.5,
+        "acceleration": 5.5,
+        "resistance": 3,
+        "turbo": 1.5,
+        "price": 60000
+      }
+    },
+    {
+      "name": "v7 Super",
+      "exchange": 6,
+      "exchange_rates": { "1": 0.009, "2": 0.005, "3": 0.002, "4": 0.0009, "5": 0.0008, "6": 0.0006 },
+      "speed": 140,
+      "acceleration": 80,
+      "resistance": 4,
+      "turbo": 3,
+      "price": 350000,
+      "update": {
+        "speed": 7,
+        "acceleration": 5.5,
+        "resistance": 3.5,
+        "turbo": 1.5,
+        "price": 70000
+      }
+    },
+    {
+      "name": "v8 Super",
+      "exchange": 7,
+      "exchange_rates": { "1": 0.01, "2": 0.008, "3": 0.006, "4": 0.002, "5": 0.0009, "6": 0.0008, "7": 0.0007 },
+      "speed": 169,
+      "acceleration": 100,
+      "resistance": 5,
+      "turbo": 4,
+      "price": 400000,
+      "update": {
+        "speed": 8,
+        "acceleration": 6,
+        "resistance": 3.5,
+        "turbo": 1.5,
+        "price": 80000
+      }
+    },
+    {
+      "name": "v9 Super",
+      "exchange": 7,
+      "exchange_rates": { "1": 0.01, "2": 0.008, "3": 0.006, "4": 0.002, "5": 0.0009, "6": 0.0008, "7": 0.0007 },
+      "speed": 189,
+      "acceleration": 130,
+      "resistance": 5,
+      "turbo": 4,
+      "price": 450000,
+      "update": {
+        "speed": 8,
+        "acceleration": 6.5,
+        "resistance": 3.5,
+        "turbo": 2,
+        "price": 90000
+      }
+    },
+    {
+      "name": "v10 Super",
+      "exchange": 8,
+      "exchange_rates": { "1": 0.03, "2": 0.01, "3": 0.009, "4": 0.008, "5": 0.007, "6": 0.005, "7": 0.003, "8": 0.001 },
+      "speed": 210,
+      "acceleration": 145,
+      "resistance": 7,
+      "turbo": 4,
+      "price": 500000,
+      "update": {
+        "speed": 9,
+        "acceleration": 7,
+        "resistance": 4,
+        "turbo": 2,
+        "price": 100000
+      }
+    },
+    {
+      "name": "v1 Flex",
+      "exchange": 4,
+      "exchange_rates": { "1": 0.007, "2": 0.005, "3": 0.0006, "4": 0.0003 },
+      "speed": 40,
+      "acceleration": 19,
+      "resistance": 3,
+      "turbo": 3,
+      "price": 70000,
+      "update": {
+        "speed": 3,
+        "acceleration": 2,
+        "resistance": 0.5,
+        "turbo": 0.5,
+        "price": 15000
+      }
+    },
+    {
+      "name": "v2 Flex",
+      "exchange": 4,
+      "exchange_rates": { "1": 0.007, "2": 0.005, "3": 0.001, "4": 0.0004 },
+      "speed": 51,
+      "acceleration": 25,
+      "resistance": 3,
+      "turbo": 3,
+      "price": 120000,
+      "update": {
+        "speed": 3.5,
+        "acceleration": 2.5,
+        "resistance": 0.5,
+        "turbo": 0.5,
+        "price": 30000
+      }
+    },
+    {
+      "name": "v3 Flex",
+      "exchange": 5,
+      "exchange_rates": { "1": 0.008, "2": 0.006, "3": 0.004, "4": 0.0009, "5": 0.0005 },
+      "speed": 65,
+      "acceleration": 30,
+      "resistance": 5,
+      "turbo": 3,
+      "price": 190000,
+      "update": {
+        "speed": 4,
+        "acceleration": 3,
+        "resistance": 1,
+        "turbo": 0.5,
+        "price": 45000
+      }
+    },
+    {
+      "name": "v4 Flex",
+      "exchange": 5,
+      "exchange_rates": { "1": 0.008, "2": 0.006, "3": 0.003, "4": 0.0009, "5": 0.0005 },
+      "speed": 88,
+      "acceleration": 38,
+      "resistance": 5,
+      "turbo": 3,
+      "price": 260000,
+      "update": {
+        "speed": 5,
+        "acceleration": 3.5,
+        "resistance": 1,
+        "turbo": 0.5,
+        "price": 60000
+      }
+    },
+    {
+      "name": "v5 Flex",
+      "exchange": 5,
+      "exchange_rates": { "1": 0.008, "2": 0.005, "3": 0.001, "4": 0.0008, "5": 0.0005 },
+      "speed": 110,
+      "acceleration": 50,
+      "resistance": 5,
+      "turbo": 3,
+      "price": 350000,
+      "update": {
+        "speed": 6,
+        "acceleration": 3.5,
+        "resistance": 1.5,
+        "turbo": 1,
+        "price": 75000
+      }
+    },
+    {
+      "name": "v6 Flex",
+      "exchange": 6,
+      "exchange_rates": { "1": 0.009, "2": 0.006, "3": 0.003, "4": 0.0009, "5": 0.0007, "6": 0.0006 },
+      "speed": 150,
+      "acceleration": 70,
+      "resistance": 5,
+      "turbo": 3,
+      "price": 420000,
+      "update": {
+        "speed": 7,
+        "acceleration": 4.5,
+        "resistance": 2,
+        "turbo": 1,
+        "price": 90000
+      }
+    },
+    {
+      "name": "v7 Flex",
+      "exchange": 6,
+      "exchange_rates": { "1": 0.009, "2": 0.005, "3": 0.002, "4": 0.0009, "5": 0.0008, "6": 0.0006 },
+      "speed": 165,
+      "acceleration": 80,
+      "resistance": 5,
+      "turbo": 3,
+      "price": 490000,
+      "update": {
+        "speed": 8,
+        "acceleration": 6,
+        "resistance": 3,
+        "turbo": 1,
+        "price": 105000
+      }
+    },
+    {
+      "name": "v8 Flex",
+      "exchange": 7,
+      "exchange_rates": { "1": 0.01, "2": 0.008, "3": 0.006, "4": 0.002, "5": 0.0009, "6": 0.0008, "7": 0.0007 },
+      "speed": 195,
+      "acceleration": 110,
+      "resistance": 5,
+      "turbo": 4,
+      "price": 560000,
+      "update": {
+        "speed": 9,
+        "acceleration": 7,
+        "resistance": 4,
+        "turbo": 2,
+        "price": 120000
+      }
+    },
+    {
+      "name": "v9 Flex",
+      "exchange": 7,
+      "exchange_rates": { "1": 0.01, "2": 0.008, "3": 0.006, "4": 0.002, "5": 0.0009, "6": 0.0008, "7": 0.0007 },
+      "speed": 219,
+      "acceleration": 135,
+      "resistance": 5,
+      "turbo": 4,
+      "price": 630000,
+      "update": {
+        "speed": 10,
+        "acceleration": 8,
+        "resistance": 4.5,
+        "turbo": 2,
+        "price": 145000
+      }
+    },
+    {
+      "name": "v10 Flex",
+      "exchange": 8,
+      "exchange_rates": { "1": 0.03, "2": 0.01, "3": 0.009, "4": 0.008, "5": 0.007, "6": 0.005, "7": 0.003, "8": 0.001 },
+      "speed": 250,
+      "acceleration": 152,
+      "resistance": 8,
+      "turbo": 4,
+      "price": 700000,
+      "update": {
+        "speed": 11,
+        "acceleration": 9,
+        "resistance": 5,
+        "turbo": 3,
+        "price": 160000
+      }
+    },  
+    {
+      "name": "v1 Turbo",
+      "exchange": 4,
+      "exchange_rates": { "1": 0.007, "2": 0.005, "3": 0.0006, "4": 0.0003 },
+      "speed": 50,
+      "acceleration": 25,
+      "resistance": 3,
+      "turbo": 5,
+      "price": 100000,
+      "update": {
+        "speed": 4,
+        "acceleration": 2.5,
+        "resistance": 1,
+        "turbo": 0.5,
+        "price": 20000
+      }
+    },
+    {
+      "name": "v2 Turbo",
+      "exchange": 4,
+      "exchange_rates": { "1": 0.007, "2": 0.005, "3": 0.001, "4": 0.0004 },
+      "speed": 65,
+      "acceleration": 37,
+      "resistance": 3,
+      "turbo": 5,
+      "price": 200000,
+      "update": {
+        "speed": 5,
+        "acceleration": 3.5,
+        "resistance": 1.5,
+        "turbo": 1,
+        "price": 40000
+      }
+    },
+    {
+      "name": "v3 Turbo",
+      "exchange": 5,
+      "exchange_rates": { "1": 0.008, "2": 0.006, "3": 0.004, "4": 0.0009, "5": 0.0005 },
+      "speed": 80,
+      "acceleration": 50,
+      "resistance": 5,
+      "turbo": 5,
+      "price": 300000,
+      "update": {
+        "speed": 6,
+        "acceleration": 4.5,
+        "resistance": 2,
+        "turbo": 1.5,
+        "price": 60000
+      }
+    },
+    {
+      "name": "v4 Turbo",
+      "exchange": 5,
+      "exchange_rates": { "1": 0.008, "2": 0.006, "3": 0.003, "4": 0.0009, "5": 0.0005 },
+      "speed": 100,
+      "acceleration": 70,
+      "resistance": 5,
+      "turbo": 5,
+      "price": 400000,
+      "update": {
+        "speed": 7,
+        "acceleration": 5.5,
+        "resistance": 2.5,
+        "turbo": 2,
+        "price": 80000
+      }
+    },
+    {
+      "name": "v5 Turbo",
+      "exchange": 5,
+      "exchange_rates": { "1": 0.008, "2": 0.005, "3": 0.001, "4": 0.0008, "5": 0.0005 },
+      "speed": 130,
+      "acceleration": 88,
+      "resistance": 5,
+      "turbo": 5,
+      "price": 500000,
+      "update": {
+        "speed": 8,
+        "acceleration": 6.5,
+        "resistance": 3,
+        "turbo": 2.5,
+        "price": 100000
+      }
+    },
+    {
+      "name": "v6 Turbo",
+      "exchange": 6,
+      "exchange_rates": { "1": 0.009, "2": 0.006, "3": 0.003, "4": 0.0009, "5": 0.0007, "6": 0.0006 },
+      "speed": 150,
+      "acceleration": 110,
+      "resistance": 5,
+      "turbo": 5,
+      "price": 600000,
+      "update": {
+        "speed": 9,
+        "acceleration": 7.5,
+        "resistance": 3.5,
+        "turbo": 3,
+        "price": 120000
+      }
+    },
+    {
+      "name": "v7 Turbo",
+      "exchange": 6,
+      "exchange_rates": { "1": 0.009, "2": 0.005, "3": 0.002, "4": 0.0009, "5": 0.0008, "6": 0.0006 },
+      "speed": 180,
+      "acceleration": 130,
+      "resistance": 5,
+      "turbo": 5,
+      "price": 700000,
+      "update": {
+        "speed": 10,
+        "acceleration": 8.5,
+        "resistance": 4,
+        "turbo": 3.4,
+        "price": 140000
+      }
+    },
+    {
+      "name": "v8 Turbo",
+      "exchange": 7,
+      "exchange_rates": { "1": 0.01, "2": 0.008, "3": 0.006, "4": 0.002, "5": 0.0009, "6": 0.0008, "7": 0.0007 },
+      "speed": 240,
+      "acceleration": 150,
+      "resistance": 5,
+      "turbo": 6,
+      "price": 800000,
+      "update": {
+        "speed": 11,
+        "acceleration": 9.5,
+        "resistance": 4.5,
+        "turbo": 4,
+        "price": 160000
+      }
+    },
+    {
+      "name": "v9 Turbo",
+      "exchange": 7,
+      "exchange_rates": { "1": 0.01, "2": 0.008, "3": 0.006, "4": 0.002, "5": 0.0009, "6": 0.0008, "7": 0.0007 },
+      "speed": 270,
+      "acceleration": 180,
+      "resistance": 5,
+      "turbo": 7,
+      "price": 900000,
+      "update": {
+        "speed": 12,
+        "acceleration": 10.5,
+        "resistance": 5,
+        "turbo": 4,
+        "price": 180000
+      }
+    },
+    {
+      "name": "v10 Turbo",
+      "exchange": 8,
+      "exchange_rates": { "1": 0.03, "2": 0.01, "3": 0.009, "4": 0.008, "5": 0.007, "6": 0.005, "7": 0.003, "8": 0.001 },
+      "speed": 300,
+      "acceleration": 199,
+      "resistance": 8,
+      "turbo": 8,
+      "price": 1000000,
+      "update": {
+        "speed": 13,
+        "acceleration": 11,
+        "resistance": 6,
+        "turbo": 4,
+        "price": 200000
+      }
+    },
+    {
+      "name": "v1 Shock",
+      "exchange": 4,
+      "exchange_rates": { "1": 0.007, "2": 0.005, "3": 0.0006, "4": 0.0003 },
+      "speed": 70,
+      "acceleration": 40,
+      "resistance": 4,
+      "turbo": 6,
+      "price": 150000,
+      "update": {
+        "speed": 5,
+        "acceleration": 3,
+        "resistance": 1,
+        "turbo": 1,
+        "price": 30000
+      }
+    },
+    {
+      "name": "v2 Shock",
+      "exchange": 4,
+      "exchange_rates": { "1": 0.007, "2": 0.005, "3": 0.001, "4": 0.0004 },
+      "speed": 90,
+      "acceleration": 55,
+      "resistance": 4,
+      "turbo": 6,
+      "price": 300000,
+      "update": {
+        "speed": 6,
+        "acceleration": 4,
+        "resistance": 1.5,
+        "turbo": 1,
+        "price": 60000
+      }
+    },
+    {
+      "name": "v3 Shock",
+      "exchange": 5,
+      "exchange_rates": { "1": 0.008, "2": 0.006, "3": 0.004, "4": 0.0009, "5": 0.0005 },
+      "speed": 140,
+      "acceleration": 70,
+      "resistance": 6,
+      "turbo": 6,
+      "price": 450000,
+      "update": {
+        "speed": 7,
+        "acceleration": 5,
+        "resistance": 2,
+        "turbo": 1,
+        "price": 90000
+      }
+    },
+    {
+      "name": "v4 Shock",
+      "exchange": 5,
+      "exchange_rates": { "1": 0.008, "2": 0.006, "3": 0.003, "4": 0.0009, "5": 0.0005 },
+      "speed": 180,
+      "acceleration": 110,
+      "resistance": 6,
+      "turbo": 6,
+      "price": 600000,
+      "update": {
+        "speed": 8,
+        "acceleration": 6,
+        "resistance": 2.5,
+        "turbo": 1.5,
+        "price": 120000
+      }
+    },
+    {
+      "name": "v5 Shock",
+      "exchange": 5,
+      "exchange_rates": { "1": 0.008, "2": 0.005, "3": 0.001, "4": 0.0008, "5": 0.0005 },
+      "speed": 210,
+      "acceleration": 124,
+      "resistance": 6,
+      "turbo": 6,
+      "price": 750000,
+      "update": {
+        "speed": 9,
+        "acceleration": 7,
+        "resistance": 3,
+        "turbo": 1.5,
+        "price": 150000
+      }
+    },
+    {
+      "name": "v6 Shock",
+      "exchange": 6,
+      "exchange_rates": { "1": 0.009, "2": 0.006, "3": 0.003, "4": 0.0009, "5": 0.0007, "6": 0.0006 },
+      "speed": 260,
+      "acceleration": 140,
+      "resistance": 6,
+      "turbo": 7,
+      "price": 1000000,
+      "update": {
+        "speed": 10,
+        "acceleration": 8,
+        "resistance": 3.5,
+        "turbo": 2,
+        "price": 180000
+      }
+    },
+    {
+      "name": "v7 Shock",
+      "exchange": 6,
+      "exchange_rates": { "1": 0.009, "2": 0.005, "3": 0.002, "4": 0.0009, "5": 0.0008, "6": 0.0006 },
+      "speed": 300,
+      "acceleration": 180,
+      "resistance": 6,
+      "turbo": 7,
+      "price": 1150000,
+      "update": {
+        "speed": 11,
+        "acceleration": 9,
+        "resistance": 4,
+        "turbo": 2.5,
+        "price": 210000
+      }
+    },
+    {
+      "name": "v8 Shock",
+      "exchange": 7,
+      "exchange_rates": { "1": 0.01, "2": 0.008, "3": 0.006, "4": 0.002, "5": 0.0009, "6": 0.0008, "7": 0.0007 },
+      "speed": 350,
+      "acceleration": 220,
+      "resistance": 6,
+      "turbo": 7,
+      "price": 1300000,
+      "update": {
+        "speed": 12,
+        "acceleration": 10,
+        "resistance": 4.5,
+        "turbo": 2.5,
+        "price": 240000
+      }
+    },
+    {
+      "name": "v9 Shock",
+      "exchange": 7,
+      "exchange_rates": { "1": 0.01, "2": 0.008, "3": 0.006, "4": 0.002, "5": 0.0009, "6": 0.0008, "7": 0.0007 },
+      "speed": 380,
+      "acceleration": 255,
+      "resistance": 6,
+      "turbo": 8,
+      "price": 1450000,
+      "update": {
+        "speed": 13,
+        "acceleration": 11,
+        "resistance": 5,
+        "turbo": 3,
+        "price": 270000
+      }
+    },
+    {
+      "name": "v10 Shock",
+      "exchange": 8,
+      "exchange_rates": { "1": 0.03, "2": 0.01, "3": 0.009, "4": 0.008, "5": 0.007, "6": 0.005, "7": 0.003, "8": 0.001 },
+      "speed": 400,
+      "acceleration": 280,
+      "resistance": 8,
+      "turbo": 9,
+      "price": 1600000,
+      "update": {
+        "speed": 15,
+        "acceleration": 14,
+        "resistance": 7,
+        "turbo": 4,
+        "price": 300000
+      }
+    }
+  ]
+}
