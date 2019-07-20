@@ -4,7 +4,7 @@ const { doRemove } = require('../controllers/deletes')
 
 const Router = express.Router()
 
-Router.delete('/delete?:query', doRemove)
+Router.delete('/auth/delete?:query', doRemove)
 
 
 module.exports = app => app.use(Router)

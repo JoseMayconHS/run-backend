@@ -1,5 +1,4 @@
-const { selectAny, selectWhere } = require('../../../services/database/sql/api-v1')
-const { getTheParts } = require('../../../services/database/sql/api-v2')
+const { selectAny, selectWhere, getTheParts } = require('../../../services/database/sqlQuery/select')
 
 async function getAll(req, res) {
 	const table = req.params.table
@@ -20,11 +19,11 @@ async function getWhere(req, res) {
 }
 
 
-async function boots(req, res) {
-	const boots = await selectAny('boots', '*')
-	const cars = await selectAny('cars', '*')
+async function bots(req, res) {
+	const bots = await selectAny('bots', '*')
+	const cars = await selectWhere('cars', {'bot': 1}, '*')
 
-	res.status(200).json({ data: { boots, cars } })
+	res.status(200).json({ data: { bots, cars } })
 }
 
 async function parts(req, res) {
@@ -33,12 +32,6 @@ async function parts(req, res) {
 	const whells = await selectAny('whells', '*')
 	const cylinders = await selectAny('cylinders', '*')
 	const protections = await selectAny('protections', '*')
-
-	function getObject(str) {
-		const strReady = str.replace(/'/g, '"')
-
-		return JSON.parse(strReady)
-	}
 
 	engines.forEach(engine => {
 		engine.exchange_rates = JSON.parse(engine.exchange_rates)
@@ -53,7 +46,6 @@ async function parts(req, res) {
 	res.status(200).json({ data: { engines, transmissions, whells, cylinders, protections } })
 }
 
-//V2 
 async function getCar(req, res) {
 	const car_id = await selectWhere('users', { id: req.user }, 'car_id')
 	const car = await selectWhere('cars', { id: car_id[0].car_id }, '*')
@@ -70,10 +62,8 @@ async function getUser(req, res) {
 async function getMyParts(req, res) {
 	const my = await getTheParts(req.body)
 
-	res.send({ my })
+	res.status(200).json({ my })
 }
 
 
-
-
-module.exports = { getAll, getWhere, boots, parts, getCar, getUser, getMyParts }
+module.exports = { getAll, getWhere, bots, parts, getCar, getUser, getMyParts }

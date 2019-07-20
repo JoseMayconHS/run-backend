@@ -94,14 +94,15 @@ function step2(next) {
 			cylinder varchar(30) default 'Cylinder 0.1' not null,
 			cylinder_object varchar(3000),
 			protection varchar(30) default 'p-1 Hard' not null,
-			protection_object varchar(3000)
+			protection_object varchar(3000),
+			bot smallint default 0
 		)`, [], err => console.log(err ? "Table 'cars' creation failed!!!" : "Table 'cars' created successy!!!"))
 
 	db.query(`
-		CREATE TABLE IF NOT EXISTS boots (
+		CREATE TABLE IF NOT EXISTS bots (
 			id int auto_increment primary key,
 			name varchar(30) unique,
-			genre char(1) not null,
+			genre varchar(20) not null,
 			country varchar(20),
 			nvl tinyint unsigned,
 			src tinytext,
@@ -134,9 +135,9 @@ function step2(next) {
 
 function step3() {
 	
-	cars.forEach(({ model, engine, transmission, whells, cylinder, protection }, indice) => {
+	cars.forEach(({ model, engine, transmission, whells, cylinder, protection}, indice) => {
 		db.query(`
-			INSERT INTO cars (model, engine, transmission, whells, cylinder, protection) VALUES (?, ?, ?, ?, ?, ?)
+			INSERT INTO cars (model, engine, transmission, whells, cylinder, protection, bot) VALUES (?, ?, ?, ?, ?, ?, 1)
 		`, [model, engine, transmission, whells, cylinder, protection], err => {
 			console.log(err? `${model} wasn't created`
 			: `Car ${model} created = ${Math.ceil(100 * (indice + 1) / cars.length)}%`)
@@ -145,7 +146,7 @@ function step3() {
 
 	pilots.forEach(({ name, genre, country, nvl, src, car_id }, indice) => {
 		db.query(`
-			INSERT INTO boots (name, genre, country, nvl, src, car_id) VALUES (?, ?, ?, ?, ?, ?)
+			INSERT INTO bots (name, genre, country, nvl, src, car_id) VALUES (?, ?, ?, ?, ?, ?)
 		`, [name, genre, country, nvl, src, car_id], err => {
 			console.log(err? `${name} wans't created`
 			: `Pilot ${name} created = ${Math.ceil(100 * (indice + 1) / pilots.length)}%`)

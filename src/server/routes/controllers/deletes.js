@@ -1,11 +1,11 @@
-const { remove } = require('../../../services/database/sql/api-v1')
+const { remove } = require('../../../services/database/sqlQuery/delete')
 
-module.exports = {
-  async doRemove(req, res) {
-    const { table, id } = req.query
+async function doRemove(req, res) {
+  const { table, id } = req.query
 
-    const result = await remove(table, { id })
+  const result = await remove(table, { id })
 
-    res.status(200).json({ result })
-  }
-}
+  res.status(200).json({ result })
+} 
+
+module.exports = { doRemove }

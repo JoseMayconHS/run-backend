@@ -1,26 +1,7 @@
-const { update, selectWhere } = require('../../../services/database/sql/api-v1')
-const { justSetReference } = require('../../../services/database/sql/api-v2')
+const { selectWhere } = require('../../../services/database/sqlQuery/select')
+const { justSetReference, update } = require('../../../services/database/sqlQuery/update')
 
-const { verifyToken } = require('../../../services/authentications/token')
-
-async function updatev1(req, res) {
-  const token = req.headers.authorization || false
-
-  verifyToken(token, async auth => {
-    if (!auth.status) return res.status(200).json(auth)
-
-    const settings = req.body
-    const { table } = req.query
-
-    const result = await update(table, settings, { id: auth.message })
-
-    if (!result.status) return res.status(200).json({ result })
-
-    res.status(200).json({ result })
-  })
-}
-
-async function updateCarv2(req, res) {
+async function updateCar(req, res) {
   const part_object = req.params.part
   const descont = req.body.costs
   delete req.body.costs
@@ -59,4 +40,4 @@ async function changePart(req, res) {
 }
 
 
-module.exports = { updatev1, updateCarv2, changePart }
+module.exports = { updateCar, changePart }

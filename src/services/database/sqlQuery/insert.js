@@ -1,6 +1,8 @@
-﻿const db = require('../')
+const db = require('../')
 
-function createAccount({ name, nickname, email, password, country, genre, model } = Object) {
+const { getTheParts } = require('./select')
+
+function createAccount({ name = String, nickname = String, email = String, password = String, country = String, genre = String, model = String } = Object) {
   return new Promise((resolve, reject) => {
     function verifyEmail(next) {
       db.query(`SELECT id FROM users WHERE email = '${email}'`, [], (err, result) => {
@@ -103,102 +105,4 @@ function createAccount({ name, nickname, email, password, country, genre, model 
   })
 }
 
-async function justSetReference({ schema = String, id = Number || String, part = String, field = String }) {
-  return new Promise(resolve => {
-    db.query(`SELECT * from ${schema} WHERE name = '${part}'`, [], (err, result) => {
-      const np = result[0]
-      let object = {}
-
-      if (schema === 'engines') {
-        object = { exchange: np.exchange, exchange_rates: JSON.parse(np.exchange_rates), speed: np.speed, acceleration: np.acceleration, resistance: np.resistance, turbo: np.turbo, update_config: JSON.parse(np.update_config), ups: 0, price: np.price }
-      }
-      if (schema === 'transmissions') {
-        object = { acceleration: np.acceleration, speed: np.speed, resistance: np.resistance, update_config: JSON.parse(np.update_config), ups: 0, price: np.price }
-      }
-      if (schema === 'cylinders') {
-        object = { turbo: np.turbo, speed: np.speed, acceleration: np.acceleration, resistance: np.resistance, update_config: JSON.parse(np.update_config), ups: 0, price: np.price }
-      }
-      if (schema === 'whells') {
-        object = { speed: np.speed, acceleration: np.acceleration, brake: np.brake, update_config: JSON.parse(np.update_config), ups: 0, price: np.price }
-      }
-      if (schema === 'protections') {
-        object = { resistance: np.resistance, update_config: JSON.parse(np.update_config), ups: 0, price: np.price }
-      }
-
-      db.query(`UPDATE cars SET ${field}_object = '${JSON.stringify(object)}', ${field} = '${part}' WHERE id = ${id}`, [], error => {
-        if (error) return resolve({ error, status: false })
-
-        resolve({ status: true })
-      })
-    })
-  })
-}
-
-
-async function getTheParts({ engine, transmission, cylinder, whells, protection }) {
-  return new Promise(resolve => {
-    function ready(obj = Object) {
-      console.log(obj)
-      Object.values(obj).forEach(part => part.update_config = JSON.parse(part.update_config))
-  
-      resolve(obj)
-    }
-    
-    let parts = {}
-  
-    function getEngine(next) {
-      db.query(`SELECT * FROM engines WHERE name = '${engine}'`, [], (err, result) => {
-  
-        result[0].exchange_rates = JSON.parse(result[0].exchange_rates)
-        parts = { ...parts, engine: result[0] }
-  
-        next()
-      })
-    }
-  
-    function getTransmission(next) {
-      db.query(`SELECT * FROM transmissions WHERE name = '${transmission}'`, [], (err, result) => {
-        parts = { ...parts, transmission: result[0] }
-  
-        next()
-      })
-    }
-  
-    function getCylinder(next) {
-      db.query(`SELECT * FROM cylinders WHERE name = '${cylinder}'`, [], (err, result) => {
-        parts = { ...parts, cylinder: result[0] }
-  
-        next()
-      })
-    }
-  
-    function getWhells(next) {
-      db.query(`SELECT * FROM whells WHERE name = '${whells}'`, [], (err, result) => {
-        parts = { ...parts, whells: result[0] }
-  
-        next()
-      })
-    }
-  
-    function getProtection() {
-      db.query(`SELECT * FROM protections WHERE name = '${protection}'`, [], (err, result) => {
-        parts = { ...parts, protection: result[0] }
-  
-        ready(parts)
-      })
-    }
-
-    function stepsBySteps(...steps) {
-      function start(indice) {
-        steps && indice < steps.length && steps[indice](() => start(indice + 1))
-      }
-
-      start(0)
-    }
-
-    stepsBySteps(getEngine, getTransmission, getCylinder, getWhells, getProtection)
-  })
-}
-
-
-module.exports = { createAccount, getTheParts, justSetReference }
+module.exports = { createAccount }
