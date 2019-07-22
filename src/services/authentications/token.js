@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
+const { selectWhere } = require('../database/sqlQuery/select')
 
-const secret = 'a53108f7543b75adbb34afc035d4cdf6'
+const { secret } = require('./.env')
 
 function gerarToken(obj = Object) {
   const token = 'Bearer ' + jwt.sign(obj, secret, {
@@ -34,6 +35,9 @@ function middlewarer(req, res, next) {
       if (!validation.status) return res.status(401).json(validation)
 
       req.user = validation.message
+      const car_id = await selectWhere('users', { id: req.user }, 'car_id')
+      const car = await selectWhere('cars', { id: car_id[0].car_id }, 'id')
+      req.car = car[0].id
 
       next()
     } catch(e) {

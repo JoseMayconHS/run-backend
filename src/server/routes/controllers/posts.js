@@ -22,7 +22,7 @@ async function login(req, res) {
 async function auth(req, res) {
   try {
     const user = await selectWhere('users', { id: req.user }, '*')
-    const car = await selectWhere('cars', {id: user[0].car_id}, '*')
+    const car = await selectWhere('cars', { id: req.car }, '*')
 
     user[0].password = ''
 
@@ -40,12 +40,10 @@ async function insert(req, res) {
       .then(id => {
         const message = gerarToken({ _id: id })
         res.status(200).json({ status: true, message })
-      })
-      .catch(result => res.status(200).json({ status: false, ...result }))
+      }).catch(result => res.status(200).json({ status: false, ...result }))
   } catch(e) {
     res.status(500).send()
   }
 }
-
 
 module.exports = { login, auth, insert  }

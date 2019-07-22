@@ -50,13 +50,13 @@ async function getCar(req, res) {
 	const car_id = await selectWhere('users', { id: req.user }, 'car_id')
 	const car = await selectWhere('cars', { id: car_id[0].car_id }, '*')
 
-	res.status(200).json({ car })
+	res.status(200).json({ car: car[0] })
 }
 
 async function getUser(req, res) {
-	const user = await selectWhere('users', { id: req.user }, 'car_id')
+	const user = await selectWhere('users', { id: req.user }, '*')
 
-	res.status(200).json({ user })
+	res.status(200).json({ user: user[0] })
 }
 
 async function getMyParts(req, res) {

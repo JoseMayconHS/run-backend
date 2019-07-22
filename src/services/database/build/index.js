@@ -122,7 +122,7 @@ function step2(next) {
 			xp int default 0,
 			gold int default 99999999,
 			nvl tinyint default 1,
-			src varchar(255) default 'default' ,
+			src varchar(3000) default 'default/default' ,
 			car_id int,
 			foreign key (car_id) references cars (id),
 			unique key (car_id) 

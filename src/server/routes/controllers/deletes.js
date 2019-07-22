@@ -5,7 +5,7 @@ async function doRemove(req, res) {
 
   const result = await remove(table, { id })
 
-  res.status(200).json({ result })
+  res.status(200).json(result)
 } 
 
 module.exports = { doRemove }
