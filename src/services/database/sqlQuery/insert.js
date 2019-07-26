@@ -60,16 +60,16 @@ function createAccount({ name = String, nickname = String, email = String, passw
         const my = await getTheParts(result[0])
 
         const e = my.engine
-        const engine_object = { exchange: e.exchange, exchange_rates: e.exchange_rates, speed: e.speed, acceleration: e.acceleration, resistance: e.resistance, turbo: e.turbo, update_config: e.update_config, ups: 0, price: e.price }
+        const engine_object = { exchange: e.exchange, exchange_rates: e.exchange_rates, speed: e.speed + 4, acceleration: e.acceleration + 6, resistance: e.resistance, turbo: e.turbo, update_config: e.update_config, ups: 0, price: e.price }
 
         const t = my.transmission
-        const transmission_object = { acceleration: t.acceleration, speed: t.speed, resistance: t.resistance, update_config: t.update_config, ups: 0, price: t.price }
+        const transmission_object = { acceleration: t.acceleration + 6, speed: t.speed + 4, resistance: t.resistance, update_config: t.update_config, ups: 0, price: t.price }
         
         const c = my.cylinder 
-        const cylinder_object = { turbo: c.turbo, speed: c.speed, acceleration: c.acceleration, resistance: c.resistance, update_config: c.update_config, ups: 0, price: c.price }
+        const cylinder_object = { turbo: c.turbo, speed: c.speed + 4, acceleration: c.acceleration + 6, resistance: c.resistance, update_config: c.update_config, ups: 0, price: c.price }
 
         const w = my.whells 
-        const whells_object = { speed: w.speed, acceleration: w.acceleration, brake: w.brake, update_config: w.update_config, ups: 0, price: w.price }
+        const whells_object = { speed: w.speed + 4, acceleration: w.acceleration + 6, brake: w.brake, update_config: w.update_config, ups: 0, price: w.price }
 
         const p = my.protection
         const protection_object = { resistance: p.resistance, update_config: p.update_config, ups: 0, price: p.price }

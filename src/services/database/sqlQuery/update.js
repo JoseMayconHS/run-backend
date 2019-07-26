@@ -39,7 +39,7 @@ async function justSetReference({ schema = String, id = Number || String, part =
         object = { resistance: np.resistance, update_config: JSON.parse(np.update_config), ups: 0, price: np.price }
       }
 
-      db.query(`UPDATE cars SET ${field}_object = '${JSON.stringify(object)}', ${field} = '${part}' WHERE id = ${id}`, [], error => {
+      db.query(`UPDATE cars SET ${field}_object = '${JSON.stringify(object)}', ${field} = '${part}' WHERE ${id === String? `model = '${id}'`: `id = ${id}` }`, [], error => {
         if (error) return resolve({ error, status: false })
 
         resolve({ status: true })

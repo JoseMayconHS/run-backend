@@ -1,5 +1,5 @@
 const sharp = require('sharp')
-const path = require('path')
+const { resolve } = require('path')
 const fs = require('fs')
 
 const { selectWhere } = require('../../../services/database/sqlQuery/select')
@@ -15,12 +15,11 @@ async function updateCar(req, res) {
 
   if (!result.status && !resultCosts.status) return res.status(200).json({ status: false, result: { result, resultCosts } })
 
-  const user = await selectWhere('users', { id: req.user }, '*')
-  user[0].password = undefined
+  const [{ gold }] = await selectWhere('users', { id: req.user }, 'gold')
 
-  const car = await selectWhere('cars', { id: req.car }, '*')
+  const [part] = await selectWhere('cars', { id: req.car }, part_object)
 
-  res.status(200).json({ status: true, car: car[0], user: user[0] })
+  res.status(200).json({ part: part[part_object], gold})
 }
 
 async function changePart(req, res) {
@@ -31,36 +30,60 @@ async function changePart(req, res) {
 
   await update('users', { gold: costs }, { id: req.user })
 
-  const user = await selectWhere('users', { id: req.user }, '*')
-  user[0].password = undefined
+  const [{ gold }] = await selectWhere('users', { id: req.user }, 'gold')
 
   const car = await selectWhere('cars', { id: req.car }, '*')
 
-  res.status(200).json({ status: true, car: car[0], user: user[0] })
+  res.status(200).json({ car: car[0], gold })
 }
 
 async function profile(req, res) {
-  const { filename: src } = req.file
+  const { filename, destination, path } = req.file
 
-  let user = await selectWhere('users', { id: req.user }, 'src')
+  const [user] = await selectWhere('users', { id: req.user }, 'src')
 
-  if (user[0].src !== 'default/default') fs.unlinkSync(path.resolve(req.file.destination, 'users', `${user[0].src}.jpg`))
+  if (user.src !== 'pilots/default') fs.unlinkSync(resolve(destination, `${user.src}.jpg`))
 
-  await sharp(req.file.path)
+  await sharp(path)
     .resize(180, 180) 
     .jpeg({ quality: 70 })
-    .toFile(path.resolve(req.file.destination, 'users', `${src}.jpg`))
+    .toFile(resolve(destination, 'users', `${filename}.jpg`))
   
-  fs.unlinkSync(req.file.path)
+  fs.unlinkSync(path)
 
-  await update('users', { src }, { id: req.user })
+  await update('users', { src: `users/${filename}` }, { id: req.user })
 
-  user = await selectWhere('users', { id: req.user }, '*')
-  user[0].password = undefined
+  const [{ src }] = await selectWhere('users', { id: req.user }, 'src')
 
-  const car = await selectWhere('cars', { id: req.car }, '*')
-
-  res.json({ status: true, user: user[0], car: car[0] })
+  res.status(200).json({ src })
 }
 
-module.exports = { updateCar, changePart, profile }
+async function withdrawal(req, res) {
+  const newGold = req.body.gold
+  await update('users', { gold: newGold }, { id: req.user })
+
+  const [{ gold }] = await selectWhere('users', { id: req.user }, 'gold')
+
+  res.status(200).json({ gold })
+}
+
+async function winOrLose(req, res) {
+  const { gold: newGold, xp: newXp } = req.body
+
+  console.log({ newGold, newXp })
+
+  let [{ limit_xp: before_limit_xp, nvl: before_nvl }] = await selectWhere('users', { id: req.user }, 'limit_xp', 'nvl')
+
+  newXp > before_limit_xp && before_nvl < 50 && (() => {
+    before_nvl++
+    before_limit_xp *= 2
+  })()
+
+  await update('users', { xp: newXp, limit_xp: before_limit_xp, gold: newGold, nvl: before_nvl }, { id: req.user })
+
+  const [{ xp, gold, limit_xp, nvl }] = await selectWhere('users', { id: req.user }, 'xp', 'gold', 'limit_xp', 'nvl')
+
+  res.status(200).json({ xp, gold, limit_xp, nvl })
+}
+
+module.exports = { updateCar, changePart, profile, withdrawal, winOrLose }

@@ -1,3 +1,5 @@
+const spawn = require('cross-spawn')
+
 const db = require('../')
 const { cars } = require('./data/cars.json')
 const { pilots } = require('./data/pilots.json')
@@ -6,6 +8,10 @@ const { engines } = require('./data/engines.json')
 const { protections } = require('./data/protections.json')
 const { transmissions } = require('./data/transmissions.json')
 const { whells } = require('./data/whells.json')
+
+const code = /^-start/.test(process.argv[2])
+let wall = { status: false, message: ['Execute npm start or yarn start'] }
+console.log('open vsCode ', code)
 
 function step1(next) {
 	db.connect(err => {
@@ -35,7 +41,10 @@ function step2(next) {
 			turbo tinyint unsigned,
 			price int not null,
 			update_config varchar(200)
-		)`, [], err => console.log(err ? "Table 'engines' creation failed!!!": "Table 'engines' created successy!!!"))	
+		)`, [], err => {
+			if (err) wall = { status: true, message: ["Table -engines- not created"] }
+			console.log(err ? "Table 'engines' creation failed!!!": "Table 'engines' created successy!!!")
+		})	
 
 	db.query(`
 		CREATE TABLE IF NOT EXISTS transmissions (
@@ -43,11 +52,13 @@ function step2(next) {
 			name varchar(15) not null unique,
 			acceleration smallint unsigned,
 			speed smallint unsigned,
-			turbo smallint unsigned,
 			resistance smallint unsigned,
 			price int not null,
 			update_config varchar(200)
-		)`, [], err => console.log(err ? "Table 'transmissions' creation failed!!!": "Table 'transmissions' created successy!!!"))	
+		)`, [], err => {
+			if (err) wall = { status: true, message: [...wall.message, "Table -transmissions- not created"] }
+			console.log(err ? "Table 'transmissions' creation failed!!!": "Table 'transmissions' created successy!!!")
+		})	
 		
 	db.query(`
 		CREATE TABLE IF NOT EXISTS whells (
@@ -58,7 +69,10 @@ function step2(next) {
 			brake tinyint unsigned,
 			price int not null,
 			update_config varchar(200)
-		)`, [], err => console.log(err ? "Table 'whells' creation failed!!!": "Table 'whells' created successy!!!"))
+		)`, [], err => {
+			if (err) wall = { status: true, message: [...wall.message, "Table -whells- not created"] }
+			console.log(err ? "Table 'whells' creation failed!!!": "Table 'whells' created successy!!!")
+		})
 		
 	db.query(`
 		CREATE TABLE IF NOT EXISTS cylinders (
@@ -70,7 +84,10 @@ function step2(next) {
 			resistance smallint unsigned,
 			price int not null,
 			update_config varchar(200)
-		)`, [], err => console.log(err ? "Table 'cylinders' creation failed!!!": "Table 'cylinders' created successy!!!"))
+		)`, [], err => {
+			if (err) wall = { status: true, message: [...wall.message, "Table -cylinders- not created"] }
+			console.log(err ? "Table 'cylinders' creation failed!!!": "Table 'cylinders' created successy!!!")
+		})
 
 	db.query(`
 		CREATE TABLE IF NOT EXISTS protections (
@@ -79,7 +96,10 @@ function step2(next) {
 			resistance smallint unsigned,
 			price int not null,
 			update_config varchar(200)
-		)`, [], err => console.log(err ? "Table 'protections' creation failed!!!": "Table 'protections' created successy!!!"))
+		)`, [], err => {
+			if (err) wall = { status: true, message: [...wall.message, "Table -protections- not created"] }
+			console.log(err ? "Table 'protections' creation failed!!!": "Table 'protections' created successy!!!")
+		})
 
 	db.query(`
 	  CREATE TABLE IF NOT EXISTS cars (
@@ -96,19 +116,25 @@ function step2(next) {
 			protection varchar(30) default 'p-1 Hard' not null,
 			protection_object varchar(3000),
 			bot smallint default 0
-		)`, [], err => console.log(err ? "Table 'cars' creation failed!!!" : "Table 'cars' created successy!!!"))
+		)`, [], err => {
+			if (err) wall = { status: true, message: [...wall.message, "Table -cars- not created"] }
+			console.log(err ? "Table 'cars' creation failed!!!" : "Table 'cars' created successy!!!")
+		})
 
 	db.query(`
 		CREATE TABLE IF NOT EXISTS bots (
 			id int auto_increment primary key,
-			name varchar(30) unique,
+			nickname varchar(30) unique,
 			genre varchar(20) not null,
 			country varchar(20),
 			nvl tinyint unsigned,
 			src tinytext,
 			car_id int not null unique,
 			foreign key (car_id) references cars (id)
-		)`, [], err => console.log(err ? "Table 'boots' creation failed!!!" : "Table 'boots' created successy!!!"))	
+		)`, [], err => {
+			if (err) wall = { status: true, message: [...wall.message, "Table -bots- not created"] }
+			console.log(err ? "Table 'bots' creation failed!!!" : "Table 'bots' created successy!!!")
+		})	
 		
 	db.query(`
 		CREATE TABLE IF NOT EXISTS users (
@@ -120,20 +146,24 @@ function step2(next) {
 			genre varchar(20) not null,
 			country varchar(20) not null,
 			xp int default 0,
+			limit_xp int default 200,
 			gold int default 99999999,
 			nvl tinyint default 1,
-			src varchar(3000) default 'default/default' ,
+			src varchar(3000) default 'pilots/default' ,
 			car_id int,
 			foreign key (car_id) references cars (id),
 			unique key (car_id) 
 		)
-	`, [], err => console.log(err ? "Table 'users' creation failed!!!" : "Table 'users' created successy!!!"))		
+	`, [], err => {
+		if (err) wall = { status: true, message: [...wall.message, "Table -users- not created"] }
+		console.log(err ? "Table 'users' creation failed!!!" : "Table 'users' created successy!!!")
+	})		
 
 
 	next()
 }
 
-function step3() {
+function step3(next) {
 	
 	cars.forEach(({ model, engine, transmission, whells, cylinder, protection}, indice) => {
 		db.query(`
@@ -144,12 +174,12 @@ function step3() {
 		})
 	})
 
-	pilots.forEach(({ name, genre, country, nvl, src, car_id }, indice) => {
+	pilots.forEach(({ nickname, genre, country, nvl, src, car_id }, indice) => {
 		db.query(`
-			INSERT INTO bots (name, genre, country, nvl, src, car_id) VALUES (?, ?, ?, ?, ?, ?)
-		`, [name, genre, country, nvl, src, car_id], err => {
-			console.log(err? `${name} wans't created`
-			: `Pilot ${name} created = ${Math.ceil(100 * (indice + 1) / pilots.length)}%`)
+			INSERT INTO bots (nickname, genre, country, nvl, src, car_id) VALUES (?, ?, ?, ?, ?, ?)
+		`, [nickname, genre, country, nvl, src, car_id], err => {
+			console.log(err? `${nickname} wans't created`
+			: `Pilot ${nickname} created = ${Math.ceil(100 * (indice + 1) / pilots.length)}%`)
 		})
 	})
 
@@ -162,10 +192,10 @@ function step3() {
 		})
 	})
 
-	transmissions.forEach(({ name, acceleration, speed, turbo, resistance, update, price }, indice) => {
+	transmissions.forEach(({ name, acceleration, speed, resistance, update, price }, indice) => {
 		db.query(`
-			INSERT INTO transmissions (name, acceleration, speed, turbo, resistance, update_config, price) VALUES (?, ?, ?, ?, ?, ?, ?)
-		`, [name, acceleration, speed, turbo, resistance, JSON.stringify(update), price], err => {
+			INSERT INTO transmissions (name, acceleration, speed, resistance, update_config, price) VALUES (?, ?, ?, ?, ?, ?)
+		`, [name, acceleration, speed, resistance, JSON.stringify(update), price], err => {
 			console.log(err? `${name} wasn't created`
 			: `Transmission ${name} created = ${Math.ceil(100 * (indice + 1) / transmissions.length)}%`)
 		})
@@ -199,7 +229,53 @@ function step3() {
 	})
 
 
-	db.end()
+	next()
+}
+
+function step4() {
+	const partsName = ['engine', 'transmission', 'whells', 'cylinder', 'protection']
+	cars.forEach((car, index) => {
+		partsName.forEach((field, index2) => {
+			const schema = field.charAt(field.length - 1) === 's'? field: field + 's'
+			db.query(`SELECT * FROM ${schema} WHERE name = '${car[field]}'`, [], (err, result) => {
+				if (err) return console.log('Error em buscar os objetos das peças')
+
+				const p = result[0]
+				let object = {}
+
+				if (schema === 'engines') {
+					object = { exchange: p.exchange, exchange_rates: JSON.parse(p.exchange_rates), speed: p.speed, acceleration: p.acceleration, resistance: p.resistance, turbo: p.turbo, update_config: JSON.parse(p.update_config), ups: 0, price: p.price }
+				}
+				if (schema === 'transmissions') {
+					object = { acceleration: p.acceleration, speed: p.speed, resistance: p.resistance, update_config: JSON.parse(p.update_config), ups: 0, price: p.price }
+				}
+				if (schema === 'cylinders') {
+					object = { turbo: p.turbo, speed: p.speed, acceleration: p.acceleration, resistance: p.resistance, update_config: JSON.parse(p.update_config), ups: 0, price: p.price }
+				}
+				if (schema === 'whells') {
+					object = { speed: p.speed, acceleration: p.acceleration, brake: p.brake, update_config: JSON.parse(p.update_config), ups: 0, price: p.price }
+				}
+				if (schema === 'protections') {
+					object = { resistance: p.resistance, update_config: JSON.parse(p.update_config), ups: 0, price: p.price }
+				}
+
+				db.query(`UPDATE cars SET ${field}_object = '${JSON.stringify(object)}' WHERE model = '${car.model}'` , [], err => {
+					!err && index2 === 4 && console.log(`Car ${car.model} finished = ${Math.ceil(100 * (index + 1) / cars.length)}%`)
+
+					index + 1 === cars.length && index2 === 4 && db.end(err => {
+						console.log({ status: wall.status? 'Error': 'Ready', messages: code? 'Opening vsCode': wall.message.join(', ') })
+						if (err == undefined) {
+							if (!wall.status) {
+								if (code) {
+									spawn.sync('code', ['.'])
+								}
+							}
+						}
+					})
+				})
+			})
+		})
+	})
 }
 
 function middlewarer(...steps) {
@@ -210,4 +286,4 @@ function middlewarer(...steps) {
 	stepByStep(0)
 }
 
-middlewarer(step1, step2, step3)
+middlewarer(step1, step2, step3, step4)

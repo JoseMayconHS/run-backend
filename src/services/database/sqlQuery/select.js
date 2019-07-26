@@ -21,6 +21,18 @@ async function selectWhere(table = String, where = Object, ...selects) {
 	return elements.length? elements: { warning: 'Ninguém encontrado!' }
 }
 
+function selectAdversary(nvl = Number, i = Number) {
+  return new Promise(resolve => {
+    db.query(`SELECT * FROM bots WHERE nvl >= ${nvl - 5} AND nvl <= ${nvl + 5}`, [], (err, resultsBots) => {
+        db.query(`SELECT * FROM users WHERE nvl >= ${nvl - 5} AND nvl <= ${nvl + 5} AND id != ${i}`, [], (err, resultsUsers) => {
+          const results = resultsBots.concat(resultsUsers)
+          resolve(results[Math.floor(Math.random() * results.length)])
+        })
+      }
+    )}
+  )
+}
+
 function sign(email = String) {
 	return new Promise(resolve => {
 		db.query(`SELECT id, password FROM users WHERE email = '${email}'`, [], (err, user) => {
@@ -97,4 +109,4 @@ async function getTheParts({ engine = String, transmission = String, cylinder = 
   })
 }
 
-module.exports = { select, selectAny, selectWhere, sign, getTheParts }
+module.exports = { select, selectAny, selectWhere, sign, getTheParts, selectAdversary }

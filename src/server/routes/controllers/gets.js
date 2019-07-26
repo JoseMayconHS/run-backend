@@ -1,4 +1,4 @@
-const { selectAny, selectWhere, getTheParts } = require('../../../services/database/sqlQuery/select')
+const { selectAny, selectWhere, getTheParts, selectAdversary } = require('../../../services/database/sqlQuery/select')
 
 async function getAll(req, res) {
 	const table = req.params.table
@@ -47,8 +47,7 @@ async function parts(req, res) {
 }
 
 async function getCar(req, res) {
-	const car_id = await selectWhere('users', { id: req.user }, 'car_id')
-	const car = await selectWhere('cars', { id: car_id[0].car_id }, '*')
+	const car = await selectWhere('cars', { id: req.car }, '*')
 
 	res.status(200).json({ car: car[0] })
 }
@@ -65,5 +64,15 @@ async function getMyParts(req, res) {
 	res.status(200).json({ my })
 }
 
+async function adversary(req, res) {
+	const nvl = await selectWhere('users', { id: req.user }, 'nvl')
 
-module.exports = { getAll, getWhere, bots, parts, getCar, getUser, getMyParts }
+	const bot = await selectAdversary(nvl[0].nvl, req.user)
+
+	const car = await selectWhere('cars', { id: bot.car_id }, '*')
+
+	res.status(200).json({ bot, car: car[0] })
+
+}
+
+module.exports = { getAll, getWhere, bots, parts, getCar, getUser, getMyParts, adversary }
