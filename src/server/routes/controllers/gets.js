@@ -67,11 +67,11 @@ async function getMyParts(req, res) {
 async function adversary(req, res) {
 	const nvl = await selectWhere('users', { id: req.user }, 'nvl')
 
-	const bot = await selectAdversary(nvl[0].nvl, req.user)
+	const advs = await selectAdversary(nvl[0].nvl, req.user)
 
-	const car = await selectWhere('cars', { id: bot.car_id }, '*')
+	const car = await selectWhere('cars', { id: advs.before.car_id }, '*')
 
-	res.status(200).json({ bot, car: car[0] })
+	res.status(200).json({ allAdvs: advs.after })
 
 }
 
