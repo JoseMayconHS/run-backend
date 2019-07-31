@@ -70,8 +70,6 @@ async function withdrawal(req, res) {
 async function winOrLose(req, res) {
   const { gold: newGold, xp: newXp } = req.body
 
-  console.log({ newGold, newXp })
-
   let [{ limit_xp: before_limit_xp, nvl: before_nvl }] = await selectWhere('users', { id: req.user }, 'limit_xp', 'nvl')
 
   newXp > before_limit_xp && before_nvl < 50 && (() => {
