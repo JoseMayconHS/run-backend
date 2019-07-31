@@ -22,15 +22,47 @@ async function selectWhere(table = String, where = Object, ...selects) {
 }
 
 function selectAdversary(nvl = Number, i = Number) {
+  const advs = nvl => {
+    if (nvl < 15) return 1
+    if (nvl < 25) return 2
+    if (nvl < 40) return 3
+    return 4
+  }
   return new Promise(resolve => {
     db.query(`SELECT * FROM bots WHERE nvl >= ${nvl - 5} AND nvl <= ${nvl + 5}`, [], (err, resultsBots) => {
-        db.query(`SELECT * FROM users WHERE nvl >= ${nvl - 5} AND nvl <= ${nvl + 5} AND id != ${i}`, [], (err, resultsUsers) => {
-          const results = resultsBots.concat(resultsUsers)
-          resolve(results[Math.floor(Math.random() * results.length)])
+        db.query(`SELECT * FROM users WHERE nvl >= ${nvl - 5} AND nvl <= ${nvl + 5} AND id != ${i}`, [], async (err, resultsUsers) => {
+          const tot = resultsBots.concat(resultsUsers)
+          let loop = 0
+          let bots = ''
+          const result = []
+          do {
+            const i = String(Math.floor(Math.random() * tot.length))
+            bots.indexOf(i) === -1 && (function() {
+              result.push({ pilot: tot[Number(i)] })
+              bots += i
+              loop++
+            })()
+          } while (loop < advs(nvl))
+          const allAdvs = await selectCarsOfAdversary(result)      
+          resolve({ before: tot[Math.floor(Math.random() * tot.length)], after: allAdvs })
         })
       }
     )}
   )
+}
+
+function selectCarsOfAdversary(advs = Array) {
+  return new Promise(resolve => {
+    const res = []
+    advs.forEach(async (obj, index) => {
+      const [ car ] = await selectWhere('cars', { id: obj.pilot.car_id }, '*')
+      res.push({
+        ...obj,
+        car
+      })
+      index === advs.length - 1 && resolve(res)
+    }) 
+  })
 }
 
 function sign(email = String) {

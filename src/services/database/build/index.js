@@ -9,7 +9,7 @@ const { protections } = require('./data/protections.json')
 const { transmissions } = require('./data/transmissions.json')
 const { whells } = require('./data/whells.json')
 
-const code = /^-start/.test(process.argv[2])
+const code = /^-code/.test(process.argv[2])
 let wall = { status: false, message: ['Execute npm start or yarn start'] }
 console.log('open vsCode ', code)
 
@@ -145,9 +145,9 @@ function step2(next) {
 			nickname varchar(15) unique not null,
 			genre varchar(20) not null,
 			country varchar(20) not null,
-			xp int default 0,
-			limit_xp int default 200,
-			gold int default 99999999,
+			xp bigint default 0,
+			limit_xp bigint default 200,
+			gold int default 100000,
 			nvl tinyint default 1,
 			src varchar(3000) default 'pilots/default' ,
 			car_id int,
@@ -158,7 +158,6 @@ function step2(next) {
 		if (err) wall = { status: true, message: [...wall.message, "Table -users- not created"] }
 		console.log(err ? "Table 'users' creation failed!!!" : "Table 'users' created successy!!!")
 	})		
-
 
 	next()
 }
@@ -263,14 +262,8 @@ function step4() {
 					!err && index2 === 4 && console.log(`Car ${car.model} finished = ${Math.ceil(100 * (index + 1) / cars.length)}%`)
 
 					index + 1 === cars.length && index2 === 4 && db.end(err => {
-						console.log({ status: wall.status? 'Error': 'Ready', messages: code? 'Opening vsCode': wall.message.join(', ') })
-						if (err == undefined) {
-							if (!wall.status) {
-								if (code) {
-									spawn.sync('code', ['.'])
-								}
-							}
-						}
+						console.log({ status: wall.status? 'Error': 'Ready', messages: code? 'Opening vsCode' : wall.message.join(', ') })
+						err == undefined && !wall.status && code && spawn.sync('code', ['.'])
 					})
 				})
 			})
