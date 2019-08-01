@@ -1,1 +1,4 @@
 node_modules
+
+src/public/users/*.jpg
+src/public/users/*.png
