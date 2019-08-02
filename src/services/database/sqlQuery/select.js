@@ -44,7 +44,7 @@ function selectAdversary(nvl = Number, i = Number) {
             })()
           } while (loop < advs(nvl))
           const allAdvs = await selectCarsOfAdversary(result)      
-          resolve({ before: tot[Math.floor(Math.random() * tot.length)], after: allAdvs })
+          resolve(allAdvs)
         })
       }
     )}

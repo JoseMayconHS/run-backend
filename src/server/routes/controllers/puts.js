@@ -17,7 +17,7 @@ async function updateCar(req, res) {
 
   const [{ gold }] = await selectWhere('users', { id: req.user }, 'gold')
 
-  const [part] = await selectWhere('cars', { id: req.car }, part_object)
+  const [ part ] = await selectWhere('cars', { id: req.car }, part_object)
 
   res.status(200).json({ part: part[part_object], gold})
 }
@@ -32,9 +32,9 @@ async function changePart(req, res) {
 
   const [{ gold }] = await selectWhere('users', { id: req.user }, 'gold')
 
-  const car = await selectWhere('cars', { id: req.car }, '*')
+  const [ car ] = await selectWhere('cars', { id: req.car }, '*')
 
-  res.status(200).json({ car: car[0], gold })
+  res.status(200).json({ car, gold })
 }
 
 async function profile(req, res) {

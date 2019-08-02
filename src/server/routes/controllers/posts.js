@@ -21,12 +21,12 @@ async function login(req, res) {
 
 async function auth(req, res) {
   try {
-    const user = await selectWhere('users', { id: req.user }, '*')
-    const car = await selectWhere('cars', { id: req.car }, '*')
+    const [ user ] = await selectWhere('users', { id: req.user }, '*')
+    const [ car ] = await selectWhere('cars', { id: req.car }, '*')
 
-    user[0].password = ''
+    user.password = undefined
 
-    res.status(200).json({ status: true, user: user[0], car: car[0], message: `${user[0].nickname} conectado!` })
+    res.status(200).json({ status: true, user, car, message: `${user.nickname} conectado!` })
   } catch(e) {
     res.status(500).send()
   }

@@ -47,15 +47,15 @@ async function parts(req, res) {
 }
 
 async function getCar(req, res) {
-	const car = await selectWhere('cars', { id: req.car }, '*')
+	const [ car ] = await selectWhere('cars', { id: req.car }, '*')
 
-	res.status(200).json({ car: car[0] })
+	res.status(200).json({ car })
 }
 
 async function getUser(req, res) {
-	const user = await selectWhere('users', { id: req.user }, '*')
+	const [ user ] = await selectWhere('users', { id: req.user }, '*')
 
-	res.status(200).json({ user: user[0] })
+	res.status(200).json({ user })
 }
 
 async function getMyParts(req, res) {
@@ -65,14 +65,11 @@ async function getMyParts(req, res) {
 }
 
 async function adversary(req, res) {
-	const nvl = await selectWhere('users', { id: req.user }, 'nvl')
+	const [{ nvl }] = await selectWhere('users', { id: req.user }, 'nvl')
 
-	const advs = await selectAdversary(nvl[0].nvl, req.user)
+	const allAdvs = await selectAdversary(nvl, req.user)
 
-	const car = await selectWhere('cars', { id: advs.before.car_id }, '*')
-
-	res.status(200).json({ allAdvs: advs.after })
-
+	res.status(200).json({ allAdvs })
 }
 
 module.exports = { getAll, getWhere, bots, parts, getCar, getUser, getMyParts, adversary }
