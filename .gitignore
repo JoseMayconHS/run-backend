@@ -10,4 +10,4 @@ src/services/database/*.json
 src/services/authentications/secret.json
 
 #log
-/*.log
+*.log

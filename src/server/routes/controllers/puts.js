@@ -11,16 +11,15 @@ async function updateCar(req, res) {
   const descont = req.body.costs
   delete req.body.costs
 
-  const result = await update('cars', { [part_object]: JSON.stringify(req.body) }, { id: req.car })
-  const resultCosts = await update('users', { gold: descont }, { id: req.user })
+  if (!await update('cars', { [part_object]: JSON.stringify(req.body) }, { id: req.car })) return res.status(200).json({ status: false, message: 'Não foi possivel fazer a atualização!' })
 
-  if (!result.status && !resultCosts.status) return res.status(200).json({ status: false, result: { result, resultCosts } })
+  if (!await update('users', { gold: descont }, { id: req.user })) return res.status(200).json({ status: false, message: 'Não foi possivel descontar no seu dinheiro!' })
 
   const [{ gold }] = await selectWhere('users', { id: req.user }, 'gold')
 
   const [ part ] = await selectWhere('cars', { id: req.car }, part_object)
 
-  res.status(200).json({ part: part[part_object], gold})
+  res.status(200).json({ status: true, part: part[part_object], gold})
 }
 
 async function changePart(req, res) {
@@ -29,13 +28,13 @@ async function changePart(req, res) {
 
   await justSetReference({ schema: table, field, id: req.car, part })
 
-  await update('users', { gold: costs }, { id: req.user })
+  if (!await update('users', { gold: costs }, { id: req.user })) return res.status(200).json({ status: false, message: 'Não foi possível efetuar a troca da peça!' })
 
   const [{ gold }] = await selectWhere('users', { id: req.user }, 'gold')
 
   const [ car ] = await selectWhere('cars', { id: req.car }, '*')
 
-  res.status(200).json({ car, gold })
+  res.status(200).json({ status: true, car, gold })
 }
 
 async function profile(req, res) {
@@ -52,20 +51,20 @@ async function profile(req, res) {
   
   fs.unlinkSync(path)
 
-  await update('users', { src: `users/${filename}` }, { id: req.user })
+  if (!await update('users', { src: `users/${filename}` }, { id: req.user })) return res.status(200).json({ status: false, message: 'Não foi possivel mudar a referência à nova imagem!' })
 
   const [{ src }] = await selectWhere('users', { id: req.user }, 'src')
 
-  res.status(200).json({ src })
+  res.status(200).json({ status: true, src })
 }
 
 async function withdrawal(req, res) {
   const newGold = req.body.gold
-  await update('users', { gold: newGold }, { id: req.user })
+  if (!await update('users', { gold: newGold }, { id: req.user })) return res.status(200).json({ status: false, message: 'Erro ao descontar no seu dinheiro!' })
 
   const [{ gold }] = await selectWhere('users', { id: req.user }, 'gold')
 
-  res.status(200).json({ gold })
+  res.status(200).json({ status: true, gold })
 }
 
 async function winOrLose(req, res) {
@@ -80,11 +79,11 @@ async function winOrLose(req, res) {
     } while (newXp > before_limit_xp && before_nvl < 50)
   })()
 
-  await update('users', { xp: newXp, limit_xp: before_limit_xp, gold: newGold, nvl: before_nvl }, { id: req.user })
+  if (!await update('users', { xp: newXp, limit_xp: before_limit_xp, gold: newGold, nvl: before_nvl }, { id: req.user })) return res.status(200).json({ status: false, message: 'Erro ao setar as novas informações após a corrida!' })
 
   const [{ xp, gold, limit_xp, nvl }] = await selectWhere('users', { id: req.user }, 'xp', 'gold', 'limit_xp', 'nvl')
 
-  res.status(200).json({ xp, gold, limit_xp, nvl })
+  res.status(200).json({ status: true, xp, gold, limit_xp, nvl })
 }
 
 async function changeInfo(req, res) {
@@ -92,9 +91,9 @@ async function changeInfo(req, res) {
 
   const [{ password }] = await selectWhere('users', { id: req.user }, 'password')
 
-  if (!await bcryptjs.compare(passwordPassed, password)) return res.status(200).json({ status: false })
+  if (!await bcryptjs.compare(passwordPassed, password)) return res.status(200).json({ status: false, message: 'Senha incorreta!' })
   
-  if (!await update('users', { [field]: value }, { id: req.user })) return res.status(200).json({ status: false })
+  if (!await update('users', { [field]: value }, { id: req.user })) return res.status(200).json({ status: false, message: 'Email já existe!' })
 
   try {
     const [{ [field]: newValue }] = await selectWhere('users', { id: req.user }, field)

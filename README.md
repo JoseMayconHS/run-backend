@@ -29,7 +29,7 @@ API developed in NodeJs (Back-end of Run-Front-end)
 
 # Steps
 1. Create a database in MYSQL;
-2. Inside the project folder, access the .env file -> src/services/database/.env
+2. Inside the project folder, access the .env file -> src/services/database/.env;
 3. Make the settings for to connect your database;
 4. Run the `yarn database` or `npm run database` command on the terminal and verify that all tables have been created and that all base records have been entered;
 5. Finally run the command again in the terminal `yarn start` or `npm start`
@@ -68,7 +68,7 @@ This returns the name of the table, the constraints of the query, and the result
 
     async function parts(req, res) {
 	      const engines = await selectAny('engines', '*')
-	      const transmissions = await selectAny('transmissions', '*')
+		  const transmissions = await selectAny('transmissions', '*')
 	      const whells = await selectAny('whells', '*')
 	      const cylinders = await selectAny('cylinders', '*')
 	      const protections = await selectAny('protections', '*')
@@ -185,45 +185,43 @@ This returns the name of the table, the constraints of the query, and the result
 		}
     }
 - put('/auth/changePart/:table') = `/auth/changePart/:table` exchange the old part with the new one, whose name came in the body of the requisition. In the body of the requisition is expected the field to be changed, the name of the new piece and the new value of the money already discounted in the Front-end. : table refers to the name of the table where the new piece is located. (**Private endpoint**)
-> { car: Object / gold: Number }
+> { status: Boolean / car: Object / gold: Number }
 
     
 	async function changePart(req, res) {
-	    const table = req.params.table
-	    const { field, part, costs } = req.body
+		const table = req.params.table
+		const { field, part, costs } = req.body
 
-	    await justSetReference({ schema: table, field, id: req.car, part })
+		await justSetReference({ schema: table, field, id: req.car, part })
 
-	    await update('users', { gold: costs }, { id: req.user })
+	    if (!await update('users', { gold: costs }, { id: req.user })) return res.status(200).json({ status: false, message: 'Não foi possível efetuar a troca da peça!' })
 
 	    const [{ gold }] = await selectWhere('users', { id: req.user }, 'gold')
 
 	    const [ car ] = await selectWhere('cars', { id: req.car }, '*')
 
-	    res.status(200).json({ car, gold })
+	    res.status(200).json({ status: true, car, gold })
 	}
 - put('/auth/car:part') = `/auth/car:part` responsible for updating the attributes of a part and updating the user's money. `:part` is the name of the field to be updated. (**Private endpoint**)
-> { part: Object / gold: Number }
+> { status: Boolean / part: Object / gold: Number }
 
   
 	async function updateCar(req, res) {
 	    const part_object = req.params.part
-	    const descont = req.body.costs
+		const descont = req.body.costs
 	    delete req.body.costs
 
-	    const result = await update('cars', { [part_object]: JSON.stringify(req.body) }, { id: req.car })
-	    const resultCosts = await update('users', { gold: descont }, { id: req.user })
+	    if (!await update('cars', { [part_object]: JSON.stringify(req.body) }, { id: req.car })) return res.status(200).json({ status: false, message: 'Não foi possivel fazer a atualização!' })
 
-	    if (!result.status && !resultCosts.status) return res.status(200).json({ status: false, result: { result, resultCosts } })
-
+	    if (!await update('users', { gold: descont }, { id: req.user })) return res.status(200).json({ status: false, message: 'Não foi possivel descontar no seu dinheiro!' })
 	    const [{ gold }] = await selectWhere('users', { id: req.user }, 'gold')
 
 	    const [ part ] = await selectWhere('cars', { id: req.car }, part_object)
 
-	    res.status(200).json({ part: part[part_object], gold})
+	    res.status(200).json({ status: true, part: part[part_object], gold})
 	}
 - put('/auth/profile') = `/auth/profile` update user's profile photo. (**Private endpoint**)
-> { src: String }
+> { status: Boolean / src: String }
 
 	async function profile(req, res) {
 	    const { filename, destination, path } = req.file
@@ -239,26 +237,26 @@ This returns the name of the table, the constraints of the query, and the result
   
 	    fs.unlinkSync(path)
 
-	    await update('users', { src: `users/${filename}` }, { id: req.user })
+	    if (!await update('users', { src: `users/${filename}` }, { id: req.user })) return res.status(200).json({ status: false, message: 'Não foi possivel mudar a referência à nova imagem!' })
 
 	    const [{ src }] = await selectWhere('users', { id: req.user }, 'src')
 
-	    res.status(200).json({ src })
+	    res.status(200).json({ status: true, src })
 	}
 
 - put('/auth/withdrawal') = `/auth/withdrawal` route that only changes the value of the user's money, to smaller! Called when the user quits the race (**Private endpoint**)
-> { gold: Number }
+> { status: Boolean / gold: Number }
 
     async function withdrawal(req, res) {
-		const newGold = req.body.gold
-	    await update('users', { gold: newGold }, { id: req.user })
+	    const newGold = req.body.gold
+	    if (!await update('users', { gold: newGold }, { id: req.user })) return res.status(200).json({ status: false, message: 'Erro ao descontar no seu dinheiro!' })
 
 	    const [{ gold }] = await selectWhere('users', { id: req.user }, 'gold')
 
-	    res.status(200).json({ gold })
+	    res.status(200).json({ status: true, gold })
 	}
 - put('/auth/winOrLose') = `/auth/winOrLose` upgrades money, experience and power, increases experience level and goal. (**Private endpoint**)
-> { xp: Number / gold: Number / limit_xp: Number / nvl: Number }
+> { status: Boolean / xp: Number / gold: Number / limit_xp: Number / nvl: Number }
 
     async function winOrLose(req, res) {
 	    const { gold: newGold, xp: newXp } = req.body
@@ -266,42 +264,45 @@ This returns the name of the table, the constraints of the query, and the result
 	    let [{ limit_xp: before_limit_xp, nvl: before_nvl }] = await selectWhere('users', { id: req.user }, 'limit_xp', 'nvl')
 
 	    newXp > before_limit_xp && before_nvl < 50 && (() => {
-		    before_nvl++
+	      do {
+	        before_nvl++
 	        before_limit_xp *= 2
+	      } while (newXp > before_limit_xp && before_nvl < 50)
 	    })()
 
-	    await update('users', { xp: newXp, limit_xp: before_limit_xp, gold: newGold, nvl: before_nvl }, { id: req.user })
+	    if (!await update('users', { xp: newXp, limit_xp: before_limit_xp, gold: newGold, nvl: before_nvl }, { id: req.user })) return res.status(200).json({ status: false, message: 'Erro ao setar as novas informações após a corrida!' })
 
 	    const [{ xp, gold, limit_xp, nvl }] = await selectWhere('users', { id: req.user }, 'xp', 'gold', 'limit_xp', 'nvl')
 
-	    res.status(200).json({ xp, gold, limit_xp, nvl })
+	    res.status(200).json({ status: true, xp, gold, limit_xp, nvl })
 	}
-- put('/auth/info') = `/auth/info` Used to update user informations
-> { status: Boolean, message: String }
+- put('/auth/info') = `/auth/info` route for update user info. (**Private endpoint**)
+> { status: Boolean / message: String}
 
-	async function changeInfo(req, res) {
-  		const { field, value, password: passwordPassed } = req.body
+    	async function changeInfo(req, res) {
+	    const { field, value, password: passwordPassed } = req.body
 
-  		const [{ password }] = await selectWhere('users', { id: req.user }, 'password')
+	    const [{ password }] = await selectWhere('users', { id: req.user }, 'password')
 
-  		if (!await bcryptjs.compare(passwordPassed, password)) return res.status(200).json({ status: false })
+	    if (!await bcryptjs.compare(passwordPassed, password)) return res.status(200).json({ status: false, message: 'Senha incorreta!' })
   
-  		if (!await update('users', { [field]: value }, { id: req.user })) return res.status(200).json({ status: false })
+	    if (!await update('users', { [field]: value }, { id: req.user })) return res.status(200).json({ status: false, message: 'Email já existe!' })
 
-  		try {
-    			const [{ [field]: newValue }] = await selectWhere('users', { id: req.user }, field)
+	    try {
+	      const [{ [field]: newValue }] = await selectWhere('users', { id: req.user }, field)
 
-    			res.status(200).json({ status: true, message: newValue })
-  		} catch(e) {
-    			res.status(200).json({ status: false })
-  		}
+	      res.status(200).json({ status: true, message: newValue })
+   	    } catch(e) {
+		  console.log(e)
+	      res.status(200).json({ status: false })
+	    }
 	}
+
 
 - delete('/auth/delete?:query') = `/auth/delete?` and a `key = value` sequence, it is only necessary to pass the table name and id. Example: `...?table=users&id=2`. (**Private endpoint**)
 > { result: Object }
 
-
-     async doRemove(req, res) {
+    async doRemove(req, res) {
         const { table, id } = req.query
     
         const result = await remove(table, { id })
