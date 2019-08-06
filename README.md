@@ -276,6 +276,26 @@ This returns the name of the table, the constraints of the query, and the result
 
 	    res.status(200).json({ xp, gold, limit_xp, nvl })
 	}
+- put('/auth/info') = `/auth/info` Used to update user informations
+> { status: Boolean, message: String }
+
+	async function changeInfo(req, res) {
+  		const { field, value, password: passwordPassed } = req.body
+
+  		const [{ password }] = await selectWhere('users', { id: req.user }, 'password')
+
+  		if (!await bcryptjs.compare(passwordPassed, password)) return res.status(200).json({ status: false })
+  
+  		if (!await update('users', { [field]: value }, { id: req.user })) return res.status(200).json({ status: false })
+
+  		try {
+    			const [{ [field]: newValue }] = await selectWhere('users', { id: req.user }, field)
+
+    			res.status(200).json({ status: true, message: newValue })
+  		} catch(e) {
+    			res.status(200).json({ status: false })
+  		}
+	}
 
 - delete('/auth/delete?:query') = `/auth/delete?` and a `key = value` sequence, it is only necessary to pass the table name and id. Example: `...?table=users&id=2`. (**Private endpoint**)
 > { result: Object }
