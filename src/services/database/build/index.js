@@ -10,7 +10,8 @@ const { transmissions } = require('./data/transmissions.json')
 const { whells } = require('./data/whells.json')
 
 const code = /^-code/.test(process.argv[2])
-let wall = { status: false, message: ['Execute npm start or yarn start'] }
+const start = /^-start/.test(process.argv[2])
+let wall = { status: false, message: [start? 'Starting' : 'Execute npm start or yarn start'] }
 console.log('open vsCode ', code)
 
 function step1(next) {
@@ -145,7 +146,7 @@ function step2(next) {
 			nickname varchar(15) unique not null,
 			genre varchar(20) not null,
 			country varchar(20) not null,
-			xp bigint default 0,
+			xp bigint default 2,
 			limit_xp bigint default 200,
 			gold int default 100000,
 			nvl tinyint default 1,

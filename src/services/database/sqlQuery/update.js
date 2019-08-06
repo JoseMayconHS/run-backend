@@ -10,9 +10,9 @@ function update(table = String, settings = Object, where = Object) {
 		db.query(`
 			UPDATE ${table} SET ${querySet} WHERE ${queryWhere}
 		`, [], err => {
-			if (err) resolve({ status: false, message: 'Atualização não executada!' })
+			if (err) resolve(false)
 
-			resolve({ status: true, message: 'Sucesso!!!'})
+			resolve(true)
 		})
 	})
 }

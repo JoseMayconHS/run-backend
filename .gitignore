@@ -1,4 +1,13 @@
+#dependencies
 node_modules
 
+#user images
 src/public/users/*.jpg
 src/public/users/*.png
+
+#credentials
+src/services/database/*.json
+src/services/authentications/secret.json
+
+#log
+/*.log

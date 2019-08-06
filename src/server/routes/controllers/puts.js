@@ -1,4 +1,5 @@
 const sharp = require('sharp')
+const bcryptjs = require('bcryptjs')
 const { resolve } = require('path')
 const fs = require('fs')
 
@@ -73,8 +74,10 @@ async function winOrLose(req, res) {
   let [{ limit_xp: before_limit_xp, nvl: before_nvl }] = await selectWhere('users', { id: req.user }, 'limit_xp', 'nvl')
 
   newXp > before_limit_xp && before_nvl < 50 && (() => {
-    before_nvl++
-    before_limit_xp *= 2
+    do {
+      before_nvl++
+      before_limit_xp *= 2
+    } while (newXp > before_limit_xp && before_nvl < 50)
   })()
 
   await update('users', { xp: newXp, limit_xp: before_limit_xp, gold: newGold, nvl: before_nvl }, { id: req.user })
@@ -84,4 +87,23 @@ async function winOrLose(req, res) {
   res.status(200).json({ xp, gold, limit_xp, nvl })
 }
 
-module.exports = { updateCar, changePart, profile, withdrawal, winOrLose }
+async function changeInfo(req, res) {
+  const { field, value, password: passwordPassed } = req.body
+
+  const [{ password }] = await selectWhere('users', { id: req.user }, 'password')
+
+  if (!await bcryptjs.compare(passwordPassed, password)) return res.status(200).json({ status: false })
+  
+  if (!await update('users', { [field]: value }, { id: req.user })) return res.status(200).json({ status: false })
+
+  try {
+    const [{ [field]: newValue }] = await selectWhere('users', { id: req.user }, field)
+
+    res.status(200).json({ status: true, message: newValue })
+  } catch(e) {
+    console.log(e)
+    res.status(200).json({ status: false })
+  }
+}
+
+module.exports = { updateCar, changePart, profile, withdrawal, winOrLose, changeInfo }

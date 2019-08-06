@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon src/server/index.js",
-    "database-start": "node src/services/database/build && nodemon src/server/index.js",
+    "database-start": "node src/services/database/build -start && nodemon src/server/index.js",
     "database": "node src/services/database/build",
     "database-code": "node src/services/database/build -code",
     "database-code-start": "node src/services/database/build -code && nodemon src/server/index.js"

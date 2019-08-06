@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const { selectWhere } = require('../database/sqlQuery/select')
 
-const { secret } = require('./.env')
+const { secret } = require('./secret.json')
 
 function gerarToken(obj = Object) {
   const token = 'Bearer ' + jwt.sign(obj, secret, {
