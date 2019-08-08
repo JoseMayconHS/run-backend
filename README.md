@@ -1,6 +1,3 @@
-
-
-
 # Run-Back-end
 API developed in NodeJs (Back-end of Run-Front-end)
 
@@ -279,23 +276,21 @@ This returns the name of the table, the constraints of the query, and the result
 - put('/auth/info') = `/auth/info` route for update user info. (**Private endpoint**)
 > { status: Boolean / message: String}
 
-    	async function changeInfo(req, res) {
-	    const { field, value, password: passwordPassed } = req.body
+    async function changeInfo(req, res) {
+		  let { field, value } = req.body
 
-	    const [{ password }] = await selectWhere('users', { id: req.user }, 'password')
-
-	    if (!await bcryptjs.compare(passwordPassed, password)) return res.status(200).json({ status: false, message: 'Senha incorreta!' })
+		  if (field === 'password') value = await bcryptjs.hash(value, 10)
   
-	    if (!await update('users', { [field]: value }, { id: req.user })) return res.status(200).json({ status: false, message: 'Email já existe!' })
+		  if (!await update('users', { [field]: value }, { id: req.user })) return res.status(200).json({ status: false })
 
-	    try {
-	      const [{ [field]: newValue }] = await selectWhere('users', { id: req.user }, field)
+		  try {
+		    const [{ [field]: newValue }] = await selectWhere('users', { id: req.user }, field)
 
-	      res.status(200).json({ status: true, message: newValue })
-   	    } catch(e) {
-		  console.log(e)
-	      res.status(200).json({ status: false })
-	    }
+		    res.status(200).json({ status: true, message: newValue })
+		  } catch(e) {
+		    console.log(e)
+		    res.status(200).json({ status: false })
+		  }
 	}
 
 

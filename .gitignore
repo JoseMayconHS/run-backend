@@ -1,13 +1,15 @@
-#dependencies
+# dependencies
 node_modules
 
-#user images
+# user images
 src/public/users/*.jpg
 src/public/users/*.png
 
-#credentials
-src/services/database/*.json
+# credentials
+src/services/database/password.json 
 src/services/authentications/secret.json
 
-#log
-*.log
+# log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

@@ -5,7 +5,10 @@ const config = require('../../../services/upload')
 const upload = multer(config)
 const Router = express.Router()
 
-const { updateCar, changePart, profile, withdrawal, winOrLose, changeInfo } = require('../controllers/puts')
+const { 
+	updateCar, changePart, profile, 
+	withdrawal, winOrLose, changeInfo 
+} = require('../controllers/puts')
 
 Router.put('/auth/car/:part', updateCar)
 

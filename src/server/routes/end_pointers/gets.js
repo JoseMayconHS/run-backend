@@ -2,7 +2,11 @@ const express = require('express')
 
 const Router = express.Router()
 
-const { getAll, getWhere, parts, bots, getCar, getUser, getMyParts, adversary } = require('../controllers/gets')
+const { 
+	getAll, getWhere, parts, 
+	bots, getCar, getUser, 
+	getMyParts, adversary, confirmPassword 
+} = require('../controllers/gets')
 
 Router.get('/getAll/:table', getAll)
 Router.get('/getWhere?:query', getWhere)

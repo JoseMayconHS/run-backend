@@ -1,6 +1,8 @@
 const express = require('express')
 
-const { doRemove } = require('../controllers/deletes')
+const { 
+	doRemove 
+} = require('../controllers/deletes')
 
 const Router = express.Router()
 

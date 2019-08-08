@@ -1,4 +1,8 @@
-const { selectAny, selectWhere, getTheParts, selectAdversary } = require('../../../services/database/sqlQuery/select')
+
+const { 
+	selectAny, selectWhere, getTheParts, 
+	selectAdversary 
+} = require('../../../services/database/sqlQuery/select')
 
 async function getAll(req, res) {
 	const table = req.params.table

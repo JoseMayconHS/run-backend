@@ -46,4 +46,13 @@ async function insert(req, res) {
   }
 }
 
-module.exports = { login, auth, insert  }
+async function confirmPassword(req, res) {
+  const { password: passwordRequest } = req.body
+  const [{ password }] = await selectWhere('users', { id: req.user }, 'password')
+
+  if (!await bcryptjs.compare(passwordRequest, password)) return res.status(200).json({ status: false, message: 'Senha inválida!' })
+
+  res.status(200).json({ status: true, message: 'Permissão válida!' })
+}
+
+module.exports = { login, auth, insert, confirmPassword  }
