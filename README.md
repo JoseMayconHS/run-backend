@@ -1,14 +1,14 @@
-# Run-Back-end
-API developed in NodeJs (Back-end of Run-Front-end)
+# Run-Backend
+API developed in NodeJs (Backend of Run-Frontend).
 
-# Frontend project
+# Frontend project (important)*
  [Repository](https://github.com/Maycon-PE/Run-Front-end)
 
 # Features
 - API with MYSQL integration;
 - Authentications;
 - Database query functions are in a single sqlQuery folder;
-- Command that runs a file that opens the connection, creates the tables, inserts default records, and closes the connection. Build the foundation for the front-end project to work.
+- Command that runs a file that opens the connection, creates the tables, inserts default records, and closes the connection. Build the foundation for the front-end project to work;
 - All routes with path `http://localhost:3001/auth` on, will go through the middleware that checks the authentication.
 
 # Dependencies used
@@ -26,13 +26,14 @@ API developed in NodeJs (Back-end of Run-Front-end)
 
 # Steps
 1. Create a database in MYSQL;
-2. Inside the project folder, access the .env file -> src/services/database/.env;
-3. Make the settings for to connect your database;
-4. Run the `yarn database` or `npm run database` command on the terminal and verify that all tables have been created and that all base records have been entered;
-5. Finally run the command again in the terminal `yarn start` or `npm start`
+2.  Create a `password.json` file by storing your MYSQL database password in the `src/services/database` directory or placing the password directly in the `.env` file;
+3. Inside the project folder, access the `.env` file -> `src/services/database/.env` and check the connection setting;
+4. Create a `secret.json` file in the `src/services/authentications` directory storing your hash to form the token;
+5. Run the `yarn database` or `npm run database` command on the terminal and verify that all tables have been created and that all base records have been entered;
+6. Finally run the command again in the terminal `yarn start` or `npm start`
 
 # Endpoints
-- get('/getAll/:table') = `/getAll/` and the name of the table you want to fetch. This is equivalent to `SELECT * FROM`: table. Example: `/getAll/bots`: Returns the name of the searched table and all records in it;
+- `get('/getAll/:table')` = `/getAll/` and the name of the table you want to fetch. This is equivalent to `SELECT * FROM`: table. Example: `/getAll/bots`: Returns the name of the searched table and all records in it.
 >{ table: String / data: Array  }
 
 
@@ -44,8 +45,8 @@ API developed in NodeJs (Back-end of Run-Front-end)
        res.status(200).json({ table, data })
     }
 
-- get('/getWhere?:query') = `/getWhere?` and a sequence of `key=value`. The function responsible for this endpoint will transform this into a valid query. **table=tableName** is required. Example: `/getWhere?table=bots&id=1`,
-This returns the name of the table, the constraints of the query, and the result;
+- `get('/getWhere?:query')` = `/getWhere?` and a sequence of `key=value`. The function responsible for this endpoint will transform this into a valid query. **table=tableName** is required. Example: `/getWhere?table=bots&id=1`,
+This returns the name of the table, the constraints of the query, and the result.
 
 >{ table: String / where: Object / data: Array }
 
@@ -59,7 +60,7 @@ This returns the name of the table, the constraints of the query, and the result
         
        res.status(200).json({ table, where, data })
     }
-- get('/getAllParts') = `/getAllParts` returns all the pieces to the cars.
+- `get('/getAllParts')` = `/getAllParts` returns all the pieces to the cars.
 >{ data: Object }
 
 
@@ -82,7 +83,7 @@ This returns the name of the table, the constraints of the query, and the result
 
 	      res.status(200).json({ data: { engines, transmissions, whells, cylinders, protections } })
 	  }
-- get('/myParts') = `/myParts` returns all the parts your car uses. Part names go into the body of the request with the keys in the same name as the table where it is located
+- `get('/myParts')` = `/myParts` returns all the parts your car uses. Part names go into the body of the request with the keys in the same name as the table where it is located.
 
  > { my: Object }
  
@@ -91,7 +92,7 @@ This returns the name of the table, the constraints of the query, and the result
 
 	    res.status(200).json({ my })
     }
-- get('/getAllBots') = `/getAllBots` returns all cars and pilots to avoid two API calls
+- `get('/getAllBots')` = `/getAllBots` returns all cars and pilots to avoid two API calls.
 > { data: Object }
 
 
@@ -103,7 +104,7 @@ This returns the name of the table, the constraints of the query, and the result
 	    res.status(200).json({ data: { bots, cars } })
 	}
 
-- get('/auth/car') = `/auth/car` Returns the car of the authenticated user (**Private endpoint**)
+- `get('/auth/car')` = `/auth/car` Returns the car of the authenticated user. (**Private endpoint**)
 > { car: Object }
 
     async function getCar(req, res) {
@@ -111,7 +112,7 @@ This returns the name of the table, the constraints of the query, and the result
 
 	    res.status(200).json({ car })
 	}
-- get('auth/user') = `/auth/user` returns the user authenticated  (**Private endpoint**)
+- `get('auth/user')` = `/auth/user` returns the user authenticated. (**Private endpoint**)
 > { user: Object }
  
 
@@ -120,7 +121,7 @@ This returns the name of the table, the constraints of the query, and the result
 
 	    res.status(200).json({ user })
 	}
-- get('/auth/adversary') = `/auth/adversary` returns an array of valid opponents for the race.
+- `get('/auth/adversary')` = `/auth/adversary` returns an array of valid opponents for the race.
 > { allAdvs: Object }
 
     async function adversary(req, res) {
@@ -131,7 +132,7 @@ This returns the name of the table, the constraints of the query, and the result
 	    res.status(200).json({ allAdvs })
 	}
 
-- post('/createAccount') = `/createAccount` route that creates an account, checks whether the email already exists, last name, and car name. Then do the inserts and references.
+- `post('/createAccount')` = `/createAccount` route that creates an account, checks whether the email already exists, last name, and car name. Then do the inserts and references.
 > { status: Boolean / message: String }
 
     async function insert(req, res) {
@@ -148,7 +149,7 @@ This returns the name of the table, the constraints of the query, and the result
 	    }	
 	}
 
-- post('/login') = `/login` route to the login, receives only an email and a password. Returns status and token in message...
+- `post('/login')` = `/login` route to the login, receives only an email and a password. Returns status and token in message.
 > { status: Boolean / message: String }
 
 
@@ -165,7 +166,7 @@ This returns the name of the table, the constraints of the query, and the result
     
         res.status(200).json({ status: true, message: token })
      }
-- post('/auth') = `/auth` route to check the token and return the logged on user and your car. (**Private endpoint**)
+- `post('/auth')` = `/auth` route to check the token and return the logged on user and your car. (**Private endpoint**)
 > { status: Boolean / user = Object / message = String }
 
 
@@ -181,7 +182,7 @@ This returns the name of the table, the constraints of the query, and the result
 	        res.status(500).send()
 		}
     }
-- put('/auth/changePart/:table') = `/auth/changePart/:table` exchange the old part with the new one, whose name came in the body of the requisition. In the body of the requisition is expected the field to be changed, the name of the new piece and the new value of the money already discounted in the Front-end. : table refers to the name of the table where the new piece is located. (**Private endpoint**)
+- `put('/auth/changePart/:table')` = `/auth/changePart/:table` exchange the old part with the new one, whose name came in the body of the requisition. In the body of the requisition is expected the field to be changed, the name of the new piece and the new value of the money already discounted in the Front-end. : table refers to the name of the table where the new piece is located. (**Private endpoint**)
 > { status: Boolean / car: Object / gold: Number }
 
     
@@ -199,7 +200,7 @@ This returns the name of the table, the constraints of the query, and the result
 
 	    res.status(200).json({ status: true, car, gold })
 	}
-- put('/auth/car:part') = `/auth/car:part` responsible for updating the attributes of a part and updating the user's money. `:part` is the name of the field to be updated. (**Private endpoint**)
+- `put('/auth/car:part')` = `/auth/car:part` responsible for updating the attributes of a part and updating the user's money. `:part` is the name of the field to be updated. (**Private endpoint**)
 > { status: Boolean / part: Object / gold: Number }
 
   
@@ -217,7 +218,7 @@ This returns the name of the table, the constraints of the query, and the result
 
 	    res.status(200).json({ status: true, part: part[part_object], gold})
 	}
-- put('/auth/profile') = `/auth/profile` update user's profile photo. (**Private endpoint**)
+- `put('/auth/profile')` = `/auth/profile` update user's profile photo. (**Private endpoint**)
 > { status: Boolean / src: String }
 
 	async function profile(req, res) {
@@ -241,7 +242,7 @@ This returns the name of the table, the constraints of the query, and the result
 	    res.status(200).json({ status: true, src })
 	}
 
-- put('/auth/withdrawal') = `/auth/withdrawal` route that only changes the value of the user's money, to smaller! Called when the user quits the race (**Private endpoint**)
+- `put('/auth/withdrawal')` = `/auth/withdrawal` route that only changes the value of the user's money, to smaller! Called when the user quits the race. (**Private endpoint**)
 > { status: Boolean / gold: Number }
 
     async function withdrawal(req, res) {
@@ -252,7 +253,7 @@ This returns the name of the table, the constraints of the query, and the result
 
 	    res.status(200).json({ status: true, gold })
 	}
-- put('/auth/winOrLose') = `/auth/winOrLose` upgrades money, experience and power, increases experience level and goal. (**Private endpoint**)
+- `put('/auth/winOrLose')` = `/auth/winOrLose` upgrades money, experience and power, increases experience level and goal. (**Private endpoint**)
 > { status: Boolean / xp: Number / gold: Number / limit_xp: Number / nvl: Number }
 
     async function winOrLose(req, res) {
@@ -273,7 +274,7 @@ This returns the name of the table, the constraints of the query, and the result
 
 	    res.status(200).json({ status: true, xp, gold, limit_xp, nvl })
 	}
-- put('/auth/info') = `/auth/info` route for update user info. (**Private endpoint**)
+- `put('/auth/info')` = `/auth/info` route for update user info. (**Private endpoint**)
 > { status: Boolean / message: String}
 
     async function changeInfo(req, res) {
@@ -294,7 +295,7 @@ This returns the name of the table, the constraints of the query, and the result
 	}
 
 
-- delete('/auth/delete?:query') = `/auth/delete?` and a `key = value` sequence, it is only necessary to pass the table name and id. Example: `...?table=users&id=2`. (**Private endpoint**)
+- `delete('/auth/delete?:query')` = `/auth/delete?` and a `key = value` sequence, it is only necessary to pass the table name and id. Example: `...?table=users&id=2`. (**Private endpoint**)
 > { result: Object }
 
     async doRemove(req, res) {
