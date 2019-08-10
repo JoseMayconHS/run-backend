@@ -1,17 +1,17 @@
 # Run-Backend
 API developed in NodeJs (Backend of Run-Frontend).
 
-# Frontend project (important)*
- [Repository](https://github.com/Maycon-PE/Run-Front-end)
+## Frontend project
+ - [Repository](https://github.com/Maycon-PE/Run-Front-end).
 
-# Features
+## Features
 - API with MYSQL integration;
 - Authentications;
 - Database query functions are in a single sqlQuery folder;
 - Command that runs a file that opens the connection, creates the tables, inserts default records, and closes the connection. Build the foundation for the front-end project to work;
 - All routes with path `http://localhost:3001/auth` on, will go through the middleware that checks the authentication.
 
-# Dependencies used
+## Dependencies used
 - Server `express`
 - Authentications `jsonwebtoken`
 - Database  `mysql2`
@@ -24,7 +24,7 @@ API developed in NodeJs (Backend of Run-Frontend).
 - Rerun the project after a change `nodemon`
 
 
-# Steps
+## Steps
 1. Create a database in MYSQL;
 2.  Create a `password.json` file by storing your MYSQL database password in the `src/services/database` directory or placing the password directly in the `.env` file;
 3. Inside the project folder, access the `.env` file -> `src/services/database/.env` and check the connection setting;
@@ -32,7 +32,7 @@ API developed in NodeJs (Backend of Run-Frontend).
 5. Run the `yarn database` or `npm run database` command on the terminal and verify that all tables have been created and that all base records have been entered;
 6. Finally run the command again in the terminal `yarn start` or `npm start`
 
-# Endpoints
+## Endpoints
 - `get('/getAll/:table')` = `/getAll/` and the name of the table you want to fetch. This is equivalent to `SELECT * FROM`: table. Example: `/getAll/bots`: Returns the name of the searched table and all records in it.
 >{ table: String / data: Array  }
 
