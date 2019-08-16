@@ -1,39 +1,39 @@
 # Run-Backend
-API developed in NodeJs (Backend of Run-Frontend).
+API desenvolvida em NodeJS (Backend do Run-Frontend).
 
-## Frontend project
- - [Repository](https://github.com/Maycon-PE/Run-Front-end).
+## Projeto client-side
+ - [Repositório](https://github.com/Maycon-PE/Run-Front-end).
 
-## Features
-- API with MYSQL integration;
-- Authentications;
-- Database query functions are in a single sqlQuery folder;
-- Command that runs a file that opens the connection, creates the tables, inserts default records, and closes the connection. Build the foundation for the front-end project to work;
-- All routes with path `http://localhost:3001/auth` on, will go through the middleware that checks the authentication.
+## Características
+- Integração com o banco de dados relacional MYSQL;
+- Autenticações;
+- Consultas ao banco de dados estão em uma única pasta `sqlQuery/`;
+- Comando `yarn database` ou `npm run database` que cria as tabelas, insere os dados e deixa a base do projeto pronta para funcionar;
+- Todas as rotas sobre o caminho `http://localhost:3001/auth`, precisarão do token de autenticação para prosseguir na rota.
 
-## Dependencies used
-- Server `express`
-- Authentications `jsonwebtoken`
-- Database  `mysql2`
-- Encryption `bcryptjs`
-- Understand the requisitions `body-parser`
-- Make external access `cors`
-- Upload images `multer`
-- Resize images `sharp`
-- Open vsCode after building database `cross-spawn`
-- Rerun the project after a change `nodemon`
+## Dependências usadas
+- Cria o servidor `express`
+- Gera e verifica os tokens `jsonwebtoken`
+- Conecta com o banco de dados  `mysql2`
+- Encripta e compara as senhas `bcryptjs`
+- Modela as requisições `body-parser`
+- Libera acesso externo `cors`
+- Upload de imagens `multer`
+- Redimenciona as imagens `sharp`
+- Executa algo na linha de comando `cross-spawn`
+- Reenstarta a aplicação após alguma alteração `nodemon`
 
 
-## Steps
-1. Create a database in MYSQL;
+## Passos
+1. Crie um banco de dados, **nome esperado `Run`**;
 2.  Create a `password.json` file by storing your MYSQL database password in the `src/services/database` directory or placing the password directly in the `.env` file;
 3. Inside the project folder, access the `.env` file -> `src/services/database/.env` and check the connection setting;
 4. Create a `secret.json` file in the `src/services/authentications` directory storing your hash to form the token;
 5. Run the `yarn database` or `npm run database` command on the terminal and verify that all tables have been created and that all base records have been entered;
-6. Finally run the command again in the terminal `yarn start` or `npm start`
+6. Execute `yarn start` ou `npm start` no terminal.
 
-## Endpoints
-- `get('/getAll/:table')` = `/getAll/` and the name of the table you want to fetch. This is equivalent to `SELECT * FROM`: table. Example: `/getAll/bots`: Returns the name of the searched table and all records in it.
+## Rotas
+- `get('/getAll/:table')` = `/getAll/:` e o nome da tabela que você quer fazer a busca. Isso é equivalente a `SELECT * FROM :table`. Exemplo: `/getAll/bots`: retorna o nome da tabela consultada e os dados nela.
 >{ table: String / data: Array  }
 
 
@@ -45,8 +45,7 @@ API developed in NodeJs (Backend of Run-Frontend).
        res.status(200).json({ table, data })
     }
 
-- `get('/getWhere?:query')` = `/getWhere?` and a sequence of `key=value`. The function responsible for this endpoint will transform this into a valid query. **table=tableName** is required. Example: `/getWhere?table=bots&id=1`,
-This returns the name of the table, the constraints of the query, and the result.
+- `get('/getWhere?:query')` = `/getWhere?` e uma sequência de `key=value`. Essa rota consultará o banco de dados transformando a query da URL em um comando SQL válido. **table=tableName** é indispensável. Exemplo: `/getWhere?table=bots&id=1` retornará a tupla da tabela bots com o id 1. Essa rota retorna o nome da tabela, a consulta realizada e os dados.
 
 >{ table: String / where: Object / data: Array }
 
@@ -60,13 +59,13 @@ This returns the name of the table, the constraints of the query, and the result
         
        res.status(200).json({ table, where, data })
     }
-- `get('/getAllParts')` = `/getAllParts` returns all the pieces to the cars.
+- `get('/getAllParts')` = `/getAllParts` retorna todas as peças do carro.
 >{ data: Object }
 
 
     async function parts(req, res) {
 	      const engines = await selectAny('engines', '*')
-		  const transmissions = await selectAny('transmissions', '*')
+	      const transmissions = await selectAny('transmissions', '*')
 	      const whells = await selectAny('whells', '*')
 	      const cylinders = await selectAny('cylinders', '*')
 	      const protections = await selectAny('protections', '*')
@@ -92,7 +91,7 @@ This returns the name of the table, the constraints of the query, and the result
 
 	    res.status(200).json({ my })
     }
-- `get('/getAllBots')` = `/getAllBots` returns all cars and pilots to avoid two API calls.
+- `get('/getAllBots')` = `/getAllBots` retorna todos os pilotos e carros padrões do projeto.
 > { data: Object }
 
 
@@ -104,7 +103,7 @@ This returns the name of the table, the constraints of the query, and the result
 	    res.status(200).json({ data: { bots, cars } })
 	}
 
-- `get('/auth/car')` = `/auth/car` Returns the car of the authenticated user. (**Private endpoint**)
+- `get('/auth/car')` = `/auth/car` retorna o carro do usuário autênticado. (**Rota protegida**)
 > { car: Object }
 
     async function getCar(req, res) {
@@ -112,7 +111,7 @@ This returns the name of the table, the constraints of the query, and the result
 
 	    res.status(200).json({ car })
 	}
-- `get('auth/user')` = `/auth/user` returns the user authenticated. (**Private endpoint**)
+- `get('auth/user')` = `/auth/user` retorna o usuário autênticado. (**Rota protegida**)
 > { user: Object }
  
 
@@ -121,7 +120,7 @@ This returns the name of the table, the constraints of the query, and the result
 
 	    res.status(200).json({ user })
 	}
-- `get('/auth/adversary')` = `/auth/adversary` returns an array of valid opponents for the race.
+- `get('/auth/adversary')` = `/auth/adversary` retorna um array com adversários válidos para a corrida.
 > { allAdvs: Object }
 
     async function adversary(req, res) {
@@ -132,14 +131,14 @@ This returns the name of the table, the constraints of the query, and the result
 	    res.status(200).json({ allAdvs })
 	}
 
-- `post('/createAccount')` = `/createAccount` route that creates an account, checks whether the email already exists, last name, and car name. Then do the inserts and references.
+- `post('/createAccount')` = `/createAccount` rota responsável pela criação de uma conta.
 > { status: Boolean / message: String }
 
     async function insert(req, res) {
 	    try {
 	        req.body.password = await encryptor(req.body.password)
 
-		    createAccount(req.body)
+		createAccount(req.body)
 	         .then(id => {
 	              const message = gerarToken({ _id: id })
 		          res.status(200).json({ status: true, message })
@@ -149,7 +148,7 @@ This returns the name of the table, the constraints of the query, and the result
 	    }	
 	}
 
-- `post('/login')` = `/login` route to the login, receives only an email and a password. Returns status and token in message.
+- `post('/login')` = `/login` rota responsável pelo login na aplicação e retorna o token.
 > { status: Boolean / message: String }
 
 
@@ -166,7 +165,7 @@ This returns the name of the table, the constraints of the query, and the result
     
         res.status(200).json({ status: true, message: token })
      }
-- `post('/auth')` = `/auth` route to check the token and return the logged on user and your car. (**Private endpoint**)
+- `post('/auth')` = `/auth` rota que verifica o token e retorna o usuário e seu carro. (**Private endpoint**)
 > { status: Boolean / user = Object / message = String }
 
 
@@ -182,7 +181,7 @@ This returns the name of the table, the constraints of the query, and the result
 	        res.status(500).send()
 		}
     }
-- `put('/auth/changePart/:table')` = `/auth/changePart/:table` exchange the old part with the new one, whose name came in the body of the requisition. In the body of the requisition is expected the field to be changed, the name of the new piece and the new value of the money already discounted in the Front-end. : table refers to the name of the table where the new piece is located. (**Private endpoint**)
+- `put('/auth/changePart/:table')` = `/auth/changePart/:table` rota que troca a peça do carro. (**Rota protegida**)
 > { status: Boolean / car: Object / gold: Number }
 
     
@@ -200,13 +199,13 @@ This returns the name of the table, the constraints of the query, and the result
 
 	    res.status(200).json({ status: true, car, gold })
 	}
-- `put('/auth/car:part')` = `/auth/car:part` responsible for updating the attributes of a part and updating the user's money. `:part` is the name of the field to be updated. (**Private endpoint**)
+- `put('/auth/car:part')` = `/auth/car:part` rota que realiza o upgrade na peça do carro. (**Rota protegida**)
 > { status: Boolean / part: Object / gold: Number }
 
   
 	async function updateCar(req, res) {
 	    const part_object = req.params.part
-		const descont = req.body.costs
+	    const descont = req.body.costs
 	    delete req.body.costs
 
 	    if (!await update('cars', { [part_object]: JSON.stringify(req.body) }, { id: req.car })) return res.status(200).json({ status: false, message: 'Não foi possivel fazer a atualização!' })
@@ -218,7 +217,7 @@ This returns the name of the table, the constraints of the query, and the result
 
 	    res.status(200).json({ status: true, part: part[part_object], gold})
 	}
-- `put('/auth/profile')` = `/auth/profile` update user's profile photo. (**Private endpoint**)
+- `put('/auth/profile')` = `/auth/profile` atualiza a foto do perfil do usuário. (**Rota protegida**)
 > { status: Boolean / src: String }
 
 	async function profile(req, res) {
@@ -242,7 +241,7 @@ This returns the name of the table, the constraints of the query, and the result
 	    res.status(200).json({ status: true, src })
 	}
 
-- `put('/auth/withdrawal')` = `/auth/withdrawal` route that only changes the value of the user's money, to smaller! Called when the user quits the race. (**Private endpoint**)
+- `put('/auth/withdrawal')` = `/auth/withdrawal` essa rota é chamada quando o usuário desiste da corrida. (**Rota protegida**)
 > { status: Boolean / gold: Number }
 
     async function withdrawal(req, res) {
@@ -253,7 +252,7 @@ This returns the name of the table, the constraints of the query, and the result
 
 	    res.status(200).json({ status: true, gold })
 	}
-- `put('/auth/winOrLose')` = `/auth/winOrLose` upgrades money, experience and power, increases experience level and goal. (**Private endpoint**)
+- `put('/auth/winOrLose')` = `/auth/winOrLose` essa rota é chamada quando a corrida termina. (**Rota protegida**)
 > { status: Boolean / xp: Number / gold: Number / limit_xp: Number / nvl: Number }
 
     async function winOrLose(req, res) {
@@ -274,7 +273,7 @@ This returns the name of the table, the constraints of the query, and the result
 
 	    res.status(200).json({ status: true, xp, gold, limit_xp, nvl })
 	}
-- `put('/auth/info')` = `/auth/info` route for update user info. (**Private endpoint**)
+- `put('/auth/info')` = `/auth/info` rota que muda as informações do usuário. (**Private endpoint**)
 > { status: Boolean / message: String}
 
     async function changeInfo(req, res) {
@@ -295,7 +294,7 @@ This returns the name of the table, the constraints of the query, and the result
 	}
 
 
-- `delete('/auth/delete?:query')` = `/auth/delete?` and a `key = value` sequence, it is only necessary to pass the table name and id. Example: `...?table=users&id=2`. (**Private endpoint**)
+- `delete('/auth/delete?:query')` = `/auth/delete?` e uma sequência de `chave=valor`, só é necessário o nome da tabela e o id do registro. Exemplo: `...?table=users&id=2`. (**Rota protegida**)
 > { result: Object }
 
     async doRemove(req, res) {
