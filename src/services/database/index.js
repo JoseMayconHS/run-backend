@@ -1,11 +1,4 @@
 const mysql = require('mysql2')
-const configDB = require('./.env')
+const configDB = require('./.env_connection')
 
-try { 
-	const connection = mysql.createConnection(configDB)
-	module.exports = connection
-} catch(e) {
-	process.exit()
-}
-
-
+module.exports = mysql.createConnection(configDB)	

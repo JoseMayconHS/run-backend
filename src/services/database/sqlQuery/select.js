@@ -77,7 +77,7 @@ function sign(email = String) {
 	})
 }
 
-async function getTheParts({ engine = String, transmission = String, cylinder = String, whells = String, protection = String } = Object) {
+async function getTheParts({ engine, transmission, cylinder, whells, protection } = Object) {
   return new Promise(resolve => {
     function ready(obj = Object) {
       Object.values(obj).forEach(part => part.update_config = JSON.parse(part.update_config))
@@ -88,45 +88,55 @@ async function getTheParts({ engine = String, transmission = String, cylinder = 
     let parts = {}
   
     function getEngine(next) {
-      db.query(`SELECT * FROM engines WHERE name = '${engine}'`, [], (err, result) => {
+      if (engine) return db.query(`SELECT * FROM engines WHERE name = '${engine}'`, [], (err, result) => {
   
-        result[0].exchange_rates = JSON.parse(result[0].exchange_rates)
-        parts = { ...parts, engine: result[0] }
-  
-        next()
-      })
+          result[0].exchange_rates = JSON.parse(result[0].exchange_rates)
+          parts = { ...parts, engine: result[0] }
+    
+          next()
+        })
+
+      next()  
     }
   
     function getTransmission(next) {
-      db.query(`SELECT * FROM transmissions WHERE name = '${transmission}'`, [], (err, result) => {
-        parts = { ...parts, transmission: result[0] }
-  
-        next()
-      })
+      if (transmission) return db.query(`SELECT * FROM transmissions WHERE name = '${transmission}'`, [], (err, result) => {
+          parts = { ...parts, transmission: result[0] }
+    
+          next()
+        })
+
+      next()  
     }
   
     function getCylinder(next) {
-      db.query(`SELECT * FROM cylinders WHERE name = '${cylinder}'`, [], (err, result) => {
-        parts = { ...parts, cylinder: result[0] }
-  
-        next()
-      })
+      if (cylinder) return db.query(`SELECT * FROM cylinders WHERE name = '${cylinder}'`, [], (err, result) => {
+          parts = { ...parts, cylinder: result[0] }
+    
+          next()
+        })
+
+      next()  
     }
   
     function getWhells(next) {
-      db.query(`SELECT * FROM whells WHERE name = '${whells}'`, [], (err, result) => {
+      if (whells) return db.query(`SELECT * FROM whells WHERE name = '${whells}'`, [], (err, result) => {
         parts = { ...parts, whells: result[0] }
   
         next()
       })
+
+      next()  
     }
   
     function getProtection() {
-      db.query(`SELECT * FROM protections WHERE name = '${protection}'`, [], (err, result) => {
-        parts = { ...parts, protection: result[0] }
-  
-        ready(parts)
-      })
+      if (protection) return db.query(`SELECT * FROM protections WHERE name = '${protection}'`, [], (err, result) => {
+          parts = { ...parts, protection: result[0] }
+    
+          ready(parts)
+        })
+
+      ready(parts)  
     }
 
     function stepsBySteps(...steps) {

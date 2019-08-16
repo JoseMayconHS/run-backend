@@ -20,16 +20,12 @@ async function login(req, res) {
 }
 
 async function auth(req, res) {
-  try {
-    const [ user ] = await selectWhere('users', { id: req.user }, '*')
-    const [ car ] = await selectWhere('cars', { id: req.car }, '*')
+  const [ user ] = await selectWhere('users', { id: req.user }, '*')
+  const [ car ] = await selectWhere('cars', { id: req.car }, '*')
 
-    user.password = undefined
+  user.password = undefined
 
-    res.status(200).json({ status: true, user, car, message: `${user.nickname} conectado!` })
-  } catch(e) {
-    res.status(500).send()
-  }
+  res.status(200).json({ status: true, user, car, message: `${user.nickname} conectado!` })
 }
 
 async function insert(req, res) {
@@ -42,7 +38,7 @@ async function insert(req, res) {
         res.status(200).json({ status: true, message })
       }).catch(result => res.status(200).json({ status: false, ...result }))
   } catch(e) {
-    res.status(500).send()
+    res.status(400).send(e)
   }
 }
 

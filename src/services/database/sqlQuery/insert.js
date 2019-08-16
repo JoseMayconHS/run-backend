@@ -2,7 +2,10 @@ const db = require('../')
 
 const { getTheParts } = require('./select')
 
-function createAccount({ name = String, nickname = String, email = String, password = String, country = String, genre = String, model = String } = Object) {
+function createAccount({ name, nickname, email, password, country, genre, model } = Object) {
+  if (!name || !nickname || !email || !password || !country || !genre || !model) {
+    throw 'Dados insuficientes'
+  }
   return new Promise((resolve, reject) => {
     function verifyEmail(next) {
       db.query(`SELECT id FROM users WHERE email = '${email}'`, [], (err, result) => {

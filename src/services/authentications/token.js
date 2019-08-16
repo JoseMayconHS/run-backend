@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken')
 const { selectWhere } = require('../database/sqlQuery/select')
 
-const { secret } = require('./secret.json')
+const { wordSecret } = require('../.env_credentials')
 
 function gerarToken(obj = Object) {
-  const token = 'Bearer ' + jwt.sign(obj, secret, {
+  const token = 'Bearer ' + jwt.sign(obj, wordSecret, {
     expiresIn: 86400
   })
 
@@ -20,7 +20,7 @@ function verifyToken(key = String, cb = Function) {
 
   if (!/^Bearer$/i.test(bearer)) return cb({ status: false, message: 'Token não indêntificado!' })
 
-  jwt.verify(token, secret, (err, user) => {
+  jwt.verify(token, wordSecret, (err, user) => {
     if (err) return cb({ status: false, message: 'Token expirado!' })
 
     cb({ status: true, message: user._id })

@@ -2,7 +2,7 @@
 API desenvolvida em NodeJS (Backend do Run-Frontend).
 
 ## Projeto client-side
- - [Repositório](https://github.com/Maycon-PE/Run-Front-end).
+ - [Repositório](https://github.com/Maycon-PE/Run-Front-end "Run-Frontend").
 
 ## Características
 - Integração com o banco de dados relacional MYSQL;
@@ -25,12 +25,14 @@ API desenvolvida em NodeJS (Backend do Run-Frontend).
 
 
 ## Passos
-1. Crie um banco de dados, **nome esperado `Run`**;
-2.  Create a `password.json` file by storing your MYSQL database password in the `src/services/database` directory or placing the password directly in the `.env` file;
-3. Inside the project folder, access the `.env` file -> `src/services/database/.env` and check the connection setting;
-4. Create a `secret.json` file in the `src/services/authentications` directory storing your hash to form the token;
-5. Run the `yarn database` or `npm run database` command on the terminal and verify that all tables have been created and that all base records have been entered;
-6. Execute `yarn start` ou `npm start` no terminal.
+1. Crie um banco de dados **MYSQL**;
+2. Coloque a senha do seu banco no arquivo `.env_credentials` -> `src/services/.env_credentials`, aproveite e coloque algum hash para gerar o token;
+3. Entre no arquivo `.env_connection` -> `src/services/database/.env_connection` e finalize as configurações de conexão;
+4. Execute `yarn database` ou `npm run database` e verifique se deu tudo certo na preparação do banco antes de iniciar o projeto.
+- **Dica:**
+	- execute `yarn database-start` ou `npm run database-start` para preparar o banco e inicializar a aplicação;
+	- execute `yarn database-code-start` ou `npm run database-code-start` para preparar o banco, abrir o vsCode e inicializar a aplicação! (**Necessita ter o vsCode instalado**).
+5. Execute `yarn start` ou `npm start` no terminal para começar (**Se não já estiver inicializado**).
 
 ## Rotas
 - `get('/getAll/:table')` = `/getAll/:` e o nome da tabela que você quer fazer a busca. Isso é equivalente a `SELECT * FROM :table`. Exemplo: `/getAll/bots`: retorna o nome da tabela consultada e os dados nela.
@@ -45,7 +47,7 @@ API desenvolvida em NodeJS (Backend do Run-Frontend).
        res.status(200).json({ table, data })
     }
 
-- `get('/getWhere?:query')` = `/getWhere?` e uma sequência de `key=value`. Essa rota consultará o banco de dados transformando a query da URL em um comando SQL válido. **table=tableName** é indispensável. Exemplo: `/getWhere?table=bots&id=1` retornará a tupla da tabela bots com o id 1. Essa rota retorna o nome da tabela, a consulta realizada e os dados.
+- `get('/getWhere?:query')` = `/getWhere?` e uma sequência de `chave=valor`. Essa rota consultará o banco de dados transformando a query da URL em um comando SQL válido. **table=tableName** é indispensável. Exemplo: `/getWhere?table=bots&id=1` retornará a tupla da tabela bots com o id 1. Essa rota retorna o nome da tabela, a consulta realizada e os dados.
 
 >{ table: String / where: Object / data: Array }
 
@@ -59,7 +61,7 @@ API desenvolvida em NodeJS (Backend do Run-Frontend).
         
        res.status(200).json({ table, where, data })
     }
-- `get('/getAllParts')` = `/getAllParts` retorna todas as peças do carro.
+- `get('/getAllParts')` = `/getAllParts` retorna todas as peças de carro.
 >{ data: Object }
 
 
@@ -82,12 +84,22 @@ API desenvolvida em NodeJS (Backend do Run-Frontend).
 
 	      res.status(200).json({ data: { engines, transmissions, whells, cylinders, protections } })
 	  }
-- `get('/myParts')` = `/myParts` returns all the parts your car uses. Part names go into the body of the request with the keys in the same name as the table where it is located.
+- `get('/myParts')` = `/myParts` retorna as peças que você deseja, uma por tabela. 
+
+Exemplo de requisição `JSON`: 
+> {
+>		"engine": "v1 Pure",
+>		"transmission": "t-1 Pure",
+>		"whells": "w-1 Pure",
+>		"cylinder": "Cylinder 0.1",
+>		"protection": "p-9 Hard"
+>	}
+.
 
  > { my: Object }
  
     async function getMyParts(req, res) {
-		const my = await getTheParts(req.body)
+			const my = await getTheParts(req.body)
 
 	    res.status(200).json({ my })
     }
@@ -109,6 +121,12 @@ API desenvolvida em NodeJS (Backend do Run-Frontend).
     async function getCar(req, res) {
 	    const [ car ] = await selectWhere('cars', { id: req.car }, '*')
 
+	    car.engine_object = JSON.parse(car.engine_object)
+			car.transmission_object = JSON.parse(car.transmission_object)
+			car.whells_object = JSON.parse(car.whells_object)
+			car.cylinder_object = JSON.parse(car.cylinder_object)
+			car.protection_object = JSON.parse(car.protection_object)
+
 	    res.status(200).json({ car })
 	}
 - `get('auth/user')` = `/auth/user` retorna o usuário autênticado. (**Rota protegida**)
@@ -117,6 +135,8 @@ API desenvolvida em NodeJS (Backend do Run-Frontend).
 
     async function getUser(req, res) {
 	    const [ user ] = await selectWhere('users', { id: req.user }, '*')
+
+	    user.password = undefined
 
 	    res.status(200).json({ user })
 	}
@@ -136,17 +156,17 @@ API desenvolvida em NodeJS (Backend do Run-Frontend).
 
     async function insert(req, res) {
 	    try {
-	        req.body.password = await encryptor(req.body.password)
+	      req.body.password = await encryptor(req.body.password)
 
-		createAccount(req.body)
-	         .then(id => {
-	              const message = gerarToken({ _id: id })
-		          res.status(200).json({ status: true, message })
-		      }).catch(result => res.status(200).json({ status: false, ...result }))
+				createAccount(req.body)
+	       .then(id => {
+	            const message = gerarToken({ _id: id })
+	          res.status(200).json({ status: true, message })
+	      }).catch(result => res.status(200).json({ status: false, ...result }))
 	    } catch(e) {
-			res.status(500).send()
+				res.status(400).send(e)
 	    }	
-	}
+		}
 
 - `post('/login')` = `/login` rota responsável pelo login na aplicação e retorna o token.
 > { status: Boolean / message: String }
@@ -165,21 +185,17 @@ API desenvolvida em NodeJS (Backend do Run-Frontend).
     
         res.status(200).json({ status: true, message: token })
      }
-- `post('/auth')` = `/auth` rota que verifica o token e retorna o usuário e seu carro. (**Private endpoint**)
+- `post('/auth')` = `/auth` rota que verifica o token e retorna o usuário e seu carro. (**Rota protegida**)
 > { status: Boolean / user = Object / message = String }
 
 
     async function auth(req, res) {
-	    try {
-	        const [ user ] = await selectWhere('users', { id: req.user }, '*')
-	        const [ car ] = await selectWhere('cars', { id: req.car }, '*')
+      const [ user ] = await selectWhere('users', { id: req.user }, '*')
+      const [ car ] = await selectWhere('cars', { id: req.car }, '*')
 
-	        user.password = undefined
+      user.password = undefined
 
-	        res.status(200).json({ status: true, user, car, message: `${user.nickname} conectado!` })
-	    } catch(e) {
-	        res.status(500).send()
-		}
+      res.status(200).json({ status: true, user, car, message: `${user.nickname} conectado!` })
     }
 - `put('/auth/changePart/:table')` = `/auth/changePart/:table` rota que troca a peça do carro. (**Rota protegida**)
 > { status: Boolean / car: Object / gold: Number }
@@ -273,7 +289,7 @@ API desenvolvida em NodeJS (Backend do Run-Frontend).
 
 	    res.status(200).json({ status: true, xp, gold, limit_xp, nvl })
 	}
-- `put('/auth/info')` = `/auth/info` rota que muda as informações do usuário. (**Private endpoint**)
+- `put('/auth/info')` = `/auth/info` rota que muda as informações do usuário. (**Rota protegida**)
 > { status: Boolean / message: String}
 
     async function changeInfo(req, res) {

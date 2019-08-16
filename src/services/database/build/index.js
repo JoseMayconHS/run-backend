@@ -19,10 +19,10 @@ function step1(next) {
 		console.info(err ? `
 	Connection failed!!!
 	Verify: 
-	  DATABASE 'run' not exists? Go to your SGBD and execute this comand 'CREATE DATABASE run;';
+	  Did you create the DATABASE? Go to your SGBD and execute this comand 'CREATE DATABASE (databaseName);';
 	  Your configurations for to connect to database are corrects? Look the documentation of mysql2 for more details.
   
-	And after execute (npm run build-database || yarn build-database) again in console of project`: `Connected ${db.threadId}`)
+	And after execute this comand again in console of project`: `Connected ${db.threadId}`)
 
 		if (!err) next()
 	})

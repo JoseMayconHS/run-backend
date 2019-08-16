@@ -53,11 +53,19 @@ async function parts(req, res) {
 async function getCar(req, res) {
 	const [ car ] = await selectWhere('cars', { id: req.car }, '*')
 
+	car.engine_object = JSON.parse(car.engine_object)
+	car.transmission_object = JSON.parse(car.transmission_object)
+	car.whells_object = JSON.parse(car.whells_object)
+	car.cylinder_object = JSON.parse(car.cylinder_object)
+	car.protection_object = JSON.parse(car.protection_object)
+
 	res.status(200).json({ car })
 }
 
 async function getUser(req, res) {
 	const [ user ] = await selectWhere('users', { id: req.user }, '*')
+
+	user.password = undefined
 
 	res.status(200).json({ user })
 }
