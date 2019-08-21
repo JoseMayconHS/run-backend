@@ -31,7 +31,7 @@ API desenvolvida em NodeJS (Backend do Run-Frontend).
 4. Execute `yarn database` ou `npm run database` e verifique se deu tudo certo na preparação do banco antes de iniciar o projeto.
 - **Dica:**
 	- execute `yarn database-start` ou `npm run database-start` para preparar o banco e inicializar a aplicação;
-	- execute `yarn database-code-start` ou `npm run database-code-start` para preparar o banco, abrir o vsCode e inicializar a aplicação! (**Necessita ter o vsCode instalado**).
+	- execute `yarn database-code-start` ou `npm run database-code-start` para preparar o banco, abrir o VsCode e inicializar a aplicação! (**Necessita ter o vsCode instalado colocado no path do sistema**).
 5. Execute `yarn start` ou `npm start` no terminal para começar (**Se não já estiver inicializado**).
 
 ## Rotas

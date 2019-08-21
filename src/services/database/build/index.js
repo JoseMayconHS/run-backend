@@ -1,6 +1,8 @@
 const spawn = require('cross-spawn')
+const ProgressBar = require('progress')
 
 const db = require('../')
+if (!db) process.exit()
 const { cars } = require('./data/cars.json')
 const { pilots } = require('./data/pilots.json')
 const { cylinders } = require('./data/cylinders.json')
@@ -9,22 +11,32 @@ const { protections } = require('./data/protections.json')
 const { transmissions } = require('./data/transmissions.json')
 const { whells } = require('./data/whells.json')
 
+const total = (cars.length * 6) + pilots.length + cylinders.length + engines.length + protections.length + transmissions.length + whells.length + 9
+
+const bar = new ProgressBar('progresso: [:bar]:percent :msg', { total, complete: '=', incomplete: ' ', width: 40 })
+const timer = setInterval(() => {
+  if (bar.complete) {
+    clearInterval(timer)
+  }
+}, 100)
+
 const code = /^-code/.test(process.argv[2])
 const start = /^-start/.test(process.argv[2])
-let wall = { status: false, message: [start? 'Starting' : 'Execute npm start or yarn start'] }
-console.log('open vsCode ', code)
+let wall = {}
+console.log(`Abrir VsCode (${code? 'SIM': 'NÃO'})`)
 
 function step1(next) {
 	db.connect(err => {
 		console.info(err ? `
-	Connection failed!!!
-	Verify: 
-	  Did you create the DATABASE? Go to your SGBD and execute this comand 'CREATE DATABASE (databaseName);';
-	  Your configurations for to connect to database are corrects? Look the documentation of mysql2 for more details.
-  
-	And after execute this comand again in console of project`: `Connected ${db.threadId}`)
+	A conexão falhou!!!
+	Vefirique: 
+	  Você criou o banco de dados? Vá ao seu SGBD e crie um banco de dados 'CREATE DATABASE *nomeDoBanco*;'; \n
+	  Suas configurações de conexão estão corretas? :/ \n
+	  Depois execute esse comando novamente`: 'Conectado')
 
-		if (!err) next()
+		if (!err) return next()
+
+		process.exit()
 	})
 }
 
@@ -43,8 +55,14 @@ function step2(next) {
 			price int not null,
 			update_config varchar(200)
 		)`, [], err => {
-			if (err) wall = { status: true, message: ["Table -engines- not created"] }
-			console.log(err ? "Table 'engines' creation failed!!!": "Table 'engines' created successy!!!")
+			if (err) {
+				wall = { status: true, message: 'Tabela -engines- não foi criada' }
+				finish()
+			} else {
+				bar.tick({
+					'msg': 'Criando as tabelas'
+				})
+			}
 		})	
 
 	db.query(`
@@ -57,8 +75,12 @@ function step2(next) {
 			price int not null,
 			update_config varchar(200)
 		)`, [], err => {
-			if (err) wall = { status: true, message: [...wall.message, "Table -transmissions- not created"] }
-			console.log(err ? "Table 'transmissions' creation failed!!!": "Table 'transmissions' created successy!!!")
+			if (err) {
+				wall = { status: true, message: 'Tabela -transmissions- não foi criada' }
+				finish()
+			} else {
+				bar.tick()	
+			}
 		})	
 		
 	db.query(`
@@ -71,8 +93,12 @@ function step2(next) {
 			price int not null,
 			update_config varchar(200)
 		)`, [], err => {
-			if (err) wall = { status: true, message: [...wall.message, "Table -whells- not created"] }
-			console.log(err ? "Table 'whells' creation failed!!!": "Table 'whells' created successy!!!")
+			if (err) {
+				wall = { status: true, message: 'Tabela -whells- não foi criada' }
+				finish()
+			} else {
+				bar.tick()
+			}
 		})
 		
 	db.query(`
@@ -86,8 +112,12 @@ function step2(next) {
 			price int not null,
 			update_config varchar(200)
 		)`, [], err => {
-			if (err) wall = { status: true, message: [...wall.message, "Table -cylinders- not created"] }
-			console.log(err ? "Table 'cylinders' creation failed!!!": "Table 'cylinders' created successy!!!")
+			if (err) {
+				wall = { status: true, message: 'Tabela -cylinders- não foi criada' }
+				finish()
+			} else {
+				bar.tick()
+			}
 		})
 
 	db.query(`
@@ -98,8 +128,12 @@ function step2(next) {
 			price int not null,
 			update_config varchar(200)
 		)`, [], err => {
-			if (err) wall = { status: true, message: [...wall.message, "Table -protections- not created"] }
-			console.log(err ? "Table 'protections' creation failed!!!": "Table 'protections' created successy!!!")
+			if (err) {
+				wall = { status: true, message: 'Tabela -protections- não foi criada' }
+				finish()
+			} else {
+				bar.tick()
+			}
 		})
 
 	db.query(`
@@ -118,8 +152,12 @@ function step2(next) {
 			protection_object varchar(3000),
 			bot smallint default 0
 		)`, [], err => {
-			if (err) wall = { status: true, message: [...wall.message, "Table -cars- not created"] }
-			console.log(err ? "Table 'cars' creation failed!!!" : "Table 'cars' created successy!!!")
+			if (err) {
+				wall = { status: true, message: 'Tabela -cars- não foi criada' }
+				finish()
+			} else {
+				bar.tick()
+			}
 		})
 
 	db.query(`
@@ -133,8 +171,12 @@ function step2(next) {
 			car_id int not null unique,
 			foreign key (car_id) references cars (id)
 		)`, [], err => {
-			if (err) wall = { status: true, message: [...wall.message, "Table -bots- not created"] }
-			console.log(err ? "Table 'bots' creation failed!!!" : "Table 'bots' created successy!!!")
+			if (err) {
+				wall = { status: true, message: 'Tabela -bots- não foi criada' }
+				finish()
+			} else {
+				bar.tick()
+			}
 		})	
 		
 	db.query(`
@@ -156,8 +198,12 @@ function step2(next) {
 			unique key (car_id) 
 		)
 	`, [], err => {
-		if (err) wall = { status: true, message: [...wall.message, "Table -users- not created"] }
-		console.log(err ? "Table 'users' creation failed!!!" : "Table 'users' created successy!!!")
+		if (err) {
+			wall = { status: true, message: 'Tabela -users- não foi criada' }
+			finish()
+		} else {
+			bar.tick()
+		}
 	})		
 
 	next()
@@ -169,53 +215,89 @@ function step3(next) {
 		db.query(`
 			INSERT INTO cars (model, engine, transmission, whells, cylinder, protection, bot) VALUES (?, ?, ?, ?, ?, ?, 1)
 		`, [model, engine, transmission, whells, cylinder, protection], err => {
-			console.log(err? `${model} wasn't created`
-			: `Car ${model} created = ${Math.ceil(100 * (indice + 1) / cars.length)}%`)
-		})
+				if (err) {
+					wall = { status: true, message: 'Erro ao inserir carros' }
+					finish()
+				} else {
+					bar.tick({
+						'msg': 'Inserindo carros'
+					})	
+				}
+			})
 	})
 
 	pilots.forEach(({ nickname, genre, country, nvl, src, car_id }, indice) => {
 		db.query(`
 			INSERT INTO bots (nickname, genre, country, nvl, src, car_id) VALUES (?, ?, ?, ?, ?, ?)
 		`, [nickname, genre, country, nvl, src, car_id], err => {
-			console.log(err? `${nickname} wans't created`
-			: `Pilot ${nickname} created = ${Math.ceil(100 * (indice + 1) / pilots.length)}%`)
-		})
+				if (err) {
+					wall = { status: true, message: 'Erro ao inserir pilotos' }
+					finish()
+				} else {
+					bar.tick({
+						'msg': 'Inserindo pilotos'
+					})	
+				}
+			})
 	})
 
 	engines.forEach(({ name, exchange, exchange_rates, speed, acceleration, resistance, turbo, update, price }, indice) => {
 		db.query(`
 			INSERT INTO engines (name, exchange, exchange_rates, speed, acceleration, resistance, turbo, update_config, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 		`, [name, exchange, JSON.stringify(exchange_rates), speed, acceleration, resistance, turbo, JSON.stringify(update), price], err => {
-			console.log(err? `${name} wans't created`
-			: `Engine ${name} created = ${Math.ceil(100 * (indice + 1) / engines.length)}%`)
-		})
+				if (err) {
+					wall = { status: true, message: 'Erro ao inserir motores' }
+					finish()
+				} else {
+					bar.tick({
+						'msg': 'Inserindo motores'
+					})	
+				}
+			})
 	})
 
 	transmissions.forEach(({ name, acceleration, speed, resistance, update, price }, indice) => {
 		db.query(`
 			INSERT INTO transmissions (name, acceleration, speed, resistance, update_config, price) VALUES (?, ?, ?, ?, ?, ?)
 		`, [name, acceleration, speed, resistance, JSON.stringify(update), price], err => {
-			console.log(err? `${name} wasn't created`
-			: `Transmission ${name} created = ${Math.ceil(100 * (indice + 1) / transmissions.length)}%`)
-		})
+				if (err) {
+					wall = { status: true, message: 'Erro ao inserir transmissões' }
+					finish()
+				} else {
+					bar.tick({
+						'msg': 'Inserindo transmissões'
+					})	
+				}		
+			})
 	})
 
 	whells.forEach(({ name, speed, acceleration, brake, update, price }, indice) => {
 		db.query(`
 			INSERT INTO whells (name, speed, acceleration, brake, update_config, price) VALUES (?, ?, ?, ?, ?, ?)
 		`, [name, speed, acceleration, brake, JSON.stringify(update), price], err => {
-			console.log(err? `${name} wasn't created`
-			: `Whells ${name} created = ${Math.ceil(100 * (indice + 1) / whells.length)}%`)
-		})
+				if (err) {
+					wall = { status: true, message: 'Erro ao inserir rodas' }
+					finish()
+				} else {
+					bar.tick({
+						'msg': 'Inserindo rodas'
+					})	
+				}
+			})
 	})
 
 	cylinders.forEach(({ name, turbo, speed, acceleration, resistance, update, price }, indice) => {
 		db.query(`
 			INSERT INTO cylinders (name, turbo, speed, acceleration, resistance, update_config, price) VALUES (?, ?, ?, ?, ?, ?, ?)
 		`, [name, turbo, speed, acceleration, resistance, JSON.stringify(update), price], err => {
-			console.log(err? `${name} wasn't created`
-			: `Cylinder ${name} created = ${Math.ceil(100 * (indice + 1) / cylinders.length)}%`)
+				if (err) {
+					wall = { status: true, message: 'Erro ao inserir cilindros' }
+					finish()
+				} else {
+					bar.tick({
+						'msg': 'Inserindo cilindros'
+					})	
+				}
 		})
 	})
 
@@ -223,8 +305,14 @@ function step3(next) {
 		db.query(`
 			INSERT INTO protections (name, resistance, update_config, price) VALUES (?, ?, ?, ?)
 		`, [name, resistance, JSON.stringify(update), price], err => {
-			console.log(err? `${name} wans't created`
-			: `Protection ${name} created = ${Math.ceil(100 * (indice + 1) / protections.length)}%`)
+				if (err) {
+					wall = { status: true, message: 'Erro ao inserir proteções' }
+					finish()
+				} else {
+					bar.tick({
+						'msg': 'Inserindo proteções'
+					})	
+				}
 		})
 	})
 
@@ -238,7 +326,10 @@ function step4() {
 		partsName.forEach((field, index2) => {
 			const schema = field.charAt(field.length - 1) === 's'? field: field + 's'
 			db.query(`SELECT * FROM ${schema} WHERE name = '${car[field]}'`, [], (err, result) => {
-				if (err) return console.log('Error em buscar os objetos das peças')
+				if (err) {
+					wall = { status: true, message: 'Erro ao buscar peças' }
+					finish()
+				}
 
 				const p = result[0]
 				let object = {}
@@ -260,16 +351,40 @@ function step4() {
 				}
 
 				db.query(`UPDATE cars SET ${field}_object = '${JSON.stringify(object)}' WHERE model = '${car.model}'` , [], err => {
-					!err && index2 === 4 && console.log(`Car ${car.model} finished = ${Math.ceil(100 * (index + 1) / cars.length)}%`)
-
-					index + 1 === cars.length && index2 === 4 && db.end(err => {
-						console.log({ status: wall.status? 'Error': 'Ready', messages: code? 'Opening vsCode' : wall.message.join(', ') })
-						err == undefined && !wall.status && code && spawn.sync('code', ['.'])
-					})
+					if (err) {
+						wall = { status: true, message: 'Erro ao mesclar peça' }
+						finish()
+					} else {
+						bar.tick({
+							'msg': 'Montando carros'
+						})
+					}
+					index + 1 === cars.length && index2 === 4 && (() => {
+							!wall.status && code && spawn.sync('code', ['.'])
+							bar.tick({
+								'msg': 'Finalizado'
+							})
+							finish()
+						})()
 				})
 			})
 		})
 	})
+}
+
+function finish() {
+	console.log('\n', 
+		{ status: wall.status? 'Ocorreu um erro (DELETE e CRIE o banco novamente)': 'OK', 
+			messages: wall.status? wall.message : 
+				start? 'Inicializando' : 
+					code? 'Abrindo o VsCode...' : 'Execute npm start ou yarn start' 
+		})
+	bar.curr !== total && (() => {
+			console.log('\x1b[41m', '\x1b[37m', 'Banco de dados incompleto!', '\x1b[0m')
+			clearInterval(timer)
+		})()
+
+	process.exit()
 }
 
 function middlewarer(...steps) {
