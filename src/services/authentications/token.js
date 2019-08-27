@@ -1,9 +1,10 @@
+require('dotenv').config()
 const jwt = require('jsonwebtoken')
 const { selectWhere } = require('../database/sqlQuery/select')
 
-const { wordSecret } = require('../.env_credentials')
+const wordSecret = process.env.JWT_SECRET_WORD || 'development'
 
-function gerarToken(obj = Object) {
+function gerarToken(obj) {
   const token = 'Bearer ' + jwt.sign(obj, wordSecret, {
     expiresIn: 86400
   })
@@ -11,7 +12,7 @@ function gerarToken(obj = Object) {
   return token
 }
 
-function verifyToken(key = String, cb = Function) {
+function verifyToken(key, cb) {
   if (!key) return cb({ status: false, message: 'Token não providênciado!' })
 
   if (key.split(' ').length !== 2) return cb({ status: false, message: 'Token mal formatado!' })

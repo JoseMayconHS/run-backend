@@ -2,7 +2,7 @@ const db = require('../')
 
 const { getTheParts } = require('./select')
 
-function createAccount({ name, nickname, email, password, country, genre, model } = Object) {
+function createAccount({ name, nickname, email, password, country, genre, model }) {
   if (!name || !nickname || !email || !password || !country || !genre || !model) {
     throw 'Dados insuficientes'
   }

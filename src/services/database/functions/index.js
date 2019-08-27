@@ -1,4 +1,4 @@
-function destructingObjects(obj = Object, sqlComand = String) {
+function destructingObjects(obj, sqlComand) {
 	const keysValues = Object.entries(obj)
 
 	const query = keysValues.reduce((acompliant, current, index) => {

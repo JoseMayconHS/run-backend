@@ -1,7 +1,7 @@
 const db = require('../')
 const { destructingObjects } = require('../functions')
 
-function update(table = String, settings = Object, where = Object) {
+function update(table, settings, where) {
 	return new Promise(resolve => {
 
 		const querySet = destructingObjects(settings, ' , ')
@@ -17,7 +17,7 @@ function update(table = String, settings = Object, where = Object) {
 	})
 }
 
-async function justSetReference({ schema = String, id = Number || String, part = String, field = String } = Object) {
+async function justSetReference({ schema, id, part, field }) {
   return new Promise(resolve => {
     db.query(`SELECT * from ${schema} WHERE name = '${part}'`, [], (err, result) => {
       const np = result[0]

@@ -9,25 +9,28 @@ API desenvolvida em NodeJS (Backend do Run-Frontend).
 - Autenticações;
 - Consultas ao banco de dados estão em uma única pasta `sqlQuery/`;
 - Comando `yarn database` ou `npm run database` que cria as tabelas, insere os dados e deixa a base do projeto pronta para funcionar;
-- Todas as rotas sobre o caminho `http://localhost:3001/auth`, precisarão do token de autenticação para prosseguir na rota.
+- Todas as rotas sobre o caminho `.../auth`, precisarão do token de autenticação para prosseguir na rota.
 
 ## Dependências usadas
-- Cria o servidor `express`
-- Gera e verifica os tokens `jsonwebtoken`
-- Conecta com o banco de dados  `mysql2`
-- Encripta e compara as senhas `bcryptjs`
-- Modela as requisições `body-parser`
-- Libera acesso externo `cors`
-- Upload de imagens `multer`
-- Redimenciona as imagens `sharp`
-- Executa algo na linha de comando `cross-spawn`
-- Reenstarta a aplicação após alguma alteração `nodemon`
+- Produção & Desenvolvimento
+	- Cria o servidor `express`
+	- Carregando as variáveis de ambiente `dotenv`
+	- Gera e verifica os tokens `jsonwebtoken`
+	- Conecta com o banco de dados  `mysql2`
+	- Encripta e compara as senhas `bcryptjs`
+	- Modela as requisições `body-parser`
+	- Libera acesso externo `cors`
+	- Upload de imagens `multer`
+	- Redimenciona as imagens `sharp`
+- Somente desenvolvimento
+	- Executa algo na linha de comando `cross-spawn`
+	- Reenstarta a aplicação após alguma alteração `nodemon`.	
+	- Animação da barra de progresso ao construir a base de dados `progress`
 
 
 ## Passos
 1. Crie um banco de dados **MYSQL**;
-2. Coloque a senha do seu banco no arquivo `.env_credentials` -> `src/services/.env_credentials`, aproveite e coloque algum hash para gerar o token;
-3. Entre no arquivo `.env_connection` -> `src/services/database/.env_connection` e finalize as configurações de conexão;
+2. Copie o texto no arquivo `env_model` e crie um arquivo `.env` no mesmo nível e defina as variáveis de ambiente;
 4. Execute `yarn database` ou `npm run database` e verifique se deu tudo certo na preparação do banco antes de iniciar o projeto.
 - **Dica:**
 	- execute `yarn database-start` ou `npm run database-start` para preparar o banco e inicializar a aplicação;

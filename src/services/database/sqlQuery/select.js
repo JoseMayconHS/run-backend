@@ -1,7 +1,7 @@
 const db = require('../')
 const { destructingObjects } = require('../functions')
 
-function select(table = String, where = Object, ...selects) {
+function select(table, where, ...selects) {
 	return new Promise(resolve => {
 		const queryWhere = destructingObjects(where, ' AND ')			
 	
@@ -9,19 +9,19 @@ function select(table = String, where = Object, ...selects) {
 	})
 }
 
-function selectAny(table = String, ...params) {
+function selectAny(table, ...params) {
 	return new Promise(resolve => {
 		db.query(`SELECT ${params} FROM ${table}`, [], (err, result) =>	resolve(result))
 	})
 }
 
-async function selectWhere(table = String, where = Object, ...selects) {
+async function selectWhere(table, where, ...selects) {
 	const elements = await select(table, where, ...selects)
 
 	return elements.length? elements: { warning: 'Ninguém encontrado!' }
 }
 
-function selectAdversary(nvl = Number, i = Number) {
+function selectAdversary(nvl, i) {
   const advs = nvl => {
     if (nvl < 15) return 1
     if (nvl < 25) return 2
@@ -51,7 +51,7 @@ function selectAdversary(nvl = Number, i = Number) {
   )
 }
 
-function selectCarsOfAdversary(advs = Array) {
+function selectCarsOfAdversary(advs) {
   return new Promise(resolve => {
     const res = []
     advs.forEach(async (obj, index) => {
@@ -65,7 +65,7 @@ function selectCarsOfAdversary(advs = Array) {
   })
 }
 
-function sign(email = String) {
+function sign(email) {
 	return new Promise(resolve => {
 		db.query(`SELECT id, password FROM users WHERE email = '${email}'`, [], (err, user) => {
 			if (err) return resolve({ status: false, message: 'Erro na consulta' })
@@ -77,9 +77,9 @@ function sign(email = String) {
 	})
 }
 
-async function getTheParts({ engine, transmission, cylinder, whells, protection } = Object) {
+async function getTheParts({ engine, transmission, cylinder, whells, protection }) {
   return new Promise(resolve => {
-    function ready(obj = Object) {
+    function ready(obj) {
       Object.values(obj).forEach(part => part.update_config = JSON.parse(part.update_config))
   
       resolve(obj)

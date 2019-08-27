@@ -1,7 +1,7 @@
 const db = require('../')
 const { destructingObjects } = require('../functions')
 
-function remove(table = String, settings = Object) {
+function remove(table, settings) {
 	return new Promise(resolve => {
 		const where = destructingObjects(settings)
 

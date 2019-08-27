@@ -1,13 +1,15 @@
+require('dotenv').config()
 const express = require('express')
 const body_parser = require('body-parser')
 const cors = require('cors')
 
+const port = process.env.SERVER_PORT || 8080
+
 const { middlewarer } = require('../services/authentications/token')
 
 const app = express()
-app.use(cors())
-const port = process.env.PORT || 3001
 
+app.use(cors())
 app.use('/files', express.static('src/public'))
 app.use('/auth', middlewarer)
 
