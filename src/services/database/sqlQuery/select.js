@@ -18,7 +18,7 @@ function selectAny(table, ...params) {
 async function selectWhere(table, where, ...selects) {
 	const elements = await select(table, where, ...selects)
 
-	return elements.length? elements: { warning: 'Ninguém encontrado!' }
+	return elements ? elements.length? elements: { warning: 'Ninguém encontrado!' } : { warning: 'Ninguém encontrado!' }
 }
 
 function selectAdversary(nvl, i) {

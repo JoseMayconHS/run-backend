@@ -10,7 +10,6 @@
     "database-start": "node src/services/database/build -start && nodemon src/server/index.js",
     "database": "node src/services/database/build",
     "database-code": "node src/services/database/build -code",
-    "database-sublime": "node src/services/database/build -sublime",
     "database-code-start": "node src/services/database/build -code && nodemon src/server/index.js"
   },
   "dependencies": {
