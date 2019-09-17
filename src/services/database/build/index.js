@@ -21,7 +21,7 @@ const timer = setInterval(() => {
 }, 100)
 
 const code = /^-code/.test(process.argv[2])
-const start = /^-start/.test(process.argv[2])
+const start = /^-dev/.test(process.argv[2])
 let wall = {}
 console.log(`Abrir VsCode (${code? 'SIM': 'NÃO'})`)
 

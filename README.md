@@ -33,9 +33,9 @@ API desenvolvida em NodeJS (Backend do Run-Frontend).
 2. Copie o texto no arquivo `env_model` e crie um arquivo `.env` no mesmo nível e defina as variáveis de ambiente;
 4. Execute `yarn database` ou `npm run database` e verifique se deu tudo certo na preparação do banco antes de iniciar o projeto.
 - **Dica:**
-	- execute `yarn database-start` ou `npm run database-start` para preparar o banco e inicializar a aplicação;
-	- execute `yarn database-code-start` ou `npm run database-code-start` para preparar o banco, abrir o VsCode e inicializar a aplicação! (**Necessita ter o vsCode instalado colocado no path do sistema**).
-5. Execute `yarn start` ou `npm start` no terminal para começar (**Se não já estiver inicializado**).
+	- execute `yarn database-dev` ou `npm run database-dev` para preparar o banco e inicializar a aplicação;
+	- execute `yarn database-code-dev` ou `npm run database-code-dev` para preparar o banco, abrir o VsCode e inicializar a aplicação! (**Necessita ter o vsCode instalado colocado no path do sistema**).
+5. Execute `yarn dev` ou `npm dev` no terminal para começar (**Se não já estiver inicializado**).
 
 ## Rotas
 - `get('/getAll/:table')` = `/getAll/:` e o nome da tabela que você quer fazer a busca. Isso é equivalente a `SELECT * FROM :table`. Exemplo: `/getAll/bots`: retorna o nome da tabela consultada e os dados nela.
