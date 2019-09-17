@@ -1,6 +1,6 @@
 require('dotenv').config()
 const jwt = require('jsonwebtoken')
-const { selectWhere } = require('../database/sqlQuery/select')
+const { selectWhere } = require('../database/mysql/sqlQuery/select')
 
 const wordSecret = process.env.JWT_SECRET_WORD || 'development'
 

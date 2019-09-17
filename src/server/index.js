@@ -1,4 +1,7 @@
 require('dotenv').config()
+require('../services/database/mongodb')
+require('../services/database/mongodb/updateStats')
+
 const express = require('express')
 const body_parser = require('body-parser')
 const cors = require('cors')

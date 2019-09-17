@@ -2,7 +2,7 @@
 const { 
 	selectAny, selectWhere, getTheParts, 
 	selectAdversary 
-} = require('../../../services/database/sqlQuery/select')
+} = require('../../../services/database/mysql/sqlQuery/select')
 
 async function getAll(req, res) {
 	const table = req.params.table
@@ -19,7 +19,7 @@ async function getWhere(req, res) {
 
 	const data = await selectWhere(table, where, '*')
 	
-	res.status(200).json({ table, where, data })
+	res.status(200).json({ table, where, count: data.length, data })
 }
 
 

@@ -6,6 +6,7 @@ API desenvolvida em NodeJS (Backend do Run-Frontend).
 
 ## Características
 - Integração com o banco de dados relacional MYSQL;
+- Integração com o bando de dados não relacional MongoDB;
 - Autenticações;
 - Consultas ao banco de dados estão em uma única pasta `sqlQuery/`;
 - Comando `yarn database` ou `npm run database` que cria as tabelas, insere os dados e deixa a base do projeto pronta para funcionar;
@@ -29,7 +30,7 @@ API desenvolvida em NodeJS (Backend do Run-Frontend).
 
 
 ## Passos
-1. Crie um banco de dados **MYSQL**;
+1. Crie um banco de dados **MYSQL** e um banco no MongoDB (Mongo Atlas);
 2. Copie o texto no arquivo `env_model` e crie um arquivo `.env` no mesmo nível e defina as variáveis de ambiente;
 4. Execute `yarn database` ou `npm run database` e verifique se deu tudo certo na preparação do banco antes de iniciar o projeto.
 - **Dica:**

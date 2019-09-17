@@ -1,7 +1,7 @@
 ﻿const bcryptjs = require('bcryptjs')
 
-const { sign, selectWhere } = require('../../../services/database/sqlQuery/select')
-const { createAccount } = require('../../../services/database/sqlQuery/insert')
+const { sign, selectWhere } = require('../../../services/database/mysql/sqlQuery/select')
+const { createAccount } = require('../../../services/database/mysql/sqlQuery/insert')
 const { gerarToken } = require('../../../services/authentications/token')
 const { encryptor } = require('../../../services/authentications/password')
 

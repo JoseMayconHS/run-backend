@@ -1,4 +1,4 @@
-const { remove } = require('../../../services/database/sqlQuery/delete')
+const { remove } = require('../../../services/database/mysql/sqlQuery/delete')
 
 async function doRemove(req, res) {
   const { table, id } = req.query
