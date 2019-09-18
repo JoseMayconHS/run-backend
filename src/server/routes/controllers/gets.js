@@ -1,4 +1,4 @@
-
+const Stats = require('../../../services/database/mongodb/updateStats/Schema')
 const { 
 	selectAny, selectWhere, getTheParts, 
 	selectAdversary 
@@ -84,4 +84,10 @@ async function adversary(req, res) {
 	res.status(200).json({ allAdvs })
 }
 
-module.exports = { getAll, getWhere, bots, parts, getCar, getUser, getMyParts, adversary }
+async function stats(req, res) {
+	const data = await Stats.findOne()
+
+	res.status(200).json({ data })
+}
+
+module.exports = { getAll, getWhere, bots, parts, getCar, getUser, getMyParts, adversary, stats }

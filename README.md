@@ -119,6 +119,14 @@ Exemplo de requisição `JSON`:
 	    res.status(200).json({ data: { bots, cars } })
 	}
 
+- `get('/stats')` = `/stats` retorna a quantidade de bots e usuarios registrados.
+> { data: Object }
+
+		async function stats(req, res) {
+			const data = await Stats.findOne()
+
+			res.status(200).json({ data })
+		}
 - `get('/auth/car')` = `/auth/car` retorna o carro do usuário autênticado. (**Rota protegida**)
 > { car: Object }
 
