@@ -123,9 +123,9 @@ Exemplo de requisição `JSON`:
 > { data: Object }
 
 		async function stats(req, res) {
-			const data = await Stats.findOne()
+		 const data = await Stats.findOne()
 
-			res.status(200).json({ data })
+		 res.status(200).json({ data })
 		}
 - `get('/auth/car')` = `/auth/car` retorna o carro do usuário autênticado. (**Rota protegida**)
 > { car: Object }
@@ -134,10 +134,10 @@ Exemplo de requisição `JSON`:
 	    const [ car ] = await selectWhere('cars', { id: req.car }, '*')
 
 	    car.engine_object = JSON.parse(car.engine_object)
-			car.transmission_object = JSON.parse(car.transmission_object)
-			car.whells_object = JSON.parse(car.whells_object)
-			car.cylinder_object = JSON.parse(car.cylinder_object)
-			car.protection_object = JSON.parse(car.protection_object)
+	    car.transmission_object = JSON.parse(car.transmission_object)
+	    car.whells_object = JSON.parse(car.whells_object)
+	    car.cylinder_object = JSON.parse(car.cylinder_object)
+	    car.protection_object = JSON.parse(car.protection_object)
 
 	    res.status(200).json({ car })
 	}
