@@ -1,10 +1,9 @@
-const express = require('express')
+const Router = require('express').Router()
 
 const { 
 	doRemove 
 } = require('../controllers/deletes')
 
-const Router = express.Router()
 
 Router.delete('/auth/delete?:query', doRemove)
 

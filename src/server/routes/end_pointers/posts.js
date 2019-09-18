@@ -1,6 +1,4 @@
-const express = require('express')
-
-const Router = express.Router()
+const Router = require('express').Router()
 
 const { 
 	login, auth, insert,

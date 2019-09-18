@@ -1,9 +1,9 @@
-const express = require('express')
+const Router = require('express').Router()
 const multer = require('multer')
+
 const config = require('../../../services/upload')
 
 const upload = multer(config)
-const Router = express.Router()
 
 const { 
 	updateCar, changePart, profile, 

@@ -7,14 +7,4 @@ const Stats = new Schema({
 	timestamps: true
 })
 
-// Stats.pre('save', async next => {
-
-// 	const stats = await Stats.findOne()
-
-// 	if 
-// 	Stats.remove({ sort: { 'createdAt': -1 } }, )
-
-// 	next()
-// })
-
 module.exports = model('stats', Stats)
