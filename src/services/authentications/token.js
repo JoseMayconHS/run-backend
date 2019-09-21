@@ -1,6 +1,6 @@
 require('dotenv').config()
 const jwt = require('jsonwebtoken')
-const { selectWhere } = require('../database/mysql/sqlQuery/select')
+const { selectWhere } = require('../database/sqlQuery/select')
 
 const wordSecret = process.env.JWT_SECRET_WORD || 'development'
 
@@ -37,8 +37,7 @@ function middlewarer(req, res, next) {
 
       req.user = validation.message
       const car_id = await selectWhere('users', { id: req.user }, 'car_id')
-      const car = await selectWhere('cars', { id: car_id[0].car_id }, 'id')
-      req.car = car[0].id
+      req.car = car_id[0].car_id
 
       next()
     } catch(e) {

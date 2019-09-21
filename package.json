@@ -6,11 +6,12 @@
   "author": "Maycon Silva <mayconprodigio@hotmail.com>",
   "license": "MIT",
   "scripts": {
+    "start": "node src/server/index.js",
     "dev": "nodemon src/server/index.js",
-    "database-dev": "node src/services/database/mysql/build -dev && nodemon src/server/index.js",
-    "database": "node src/services/database/mysql/build",
-    "database-code": "node src/services/database/mysql/build -code",
-    "database-code-dev": "node src/services/database/mysql/build -code && nodemon src/server/index.js"
+    "database-dev": "node src/services/database/build -dev && nodemon src/server/index.js",
+    "database": "node src/services/database/build",
+    "database-code": "node src/services/database/build -code",
+    "database-code-dev": "node src/services/database/build -code && nodemon src/server/index.js"
   },
   "dependencies": {
     "bcryptjs": "2.4.3",

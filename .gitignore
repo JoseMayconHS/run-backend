@@ -2,8 +2,8 @@
 node_modules
 
 # user images
-src/public/users/*.jpg
-src/public/users/*.png
+src/public/users/*
+!src/public/users/.gitkeep
 
 # log
 npm-debug.log*

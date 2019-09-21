@@ -5,6 +5,6 @@ const {
 } = require('../controllers/deletes')
 
 
-Router.delete('/auth/delete?:query', doRemove)
+Router.delete('/auth/delete', doRemove)
 
 module.exports = app => app.use(Router)

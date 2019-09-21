@@ -3,8 +3,8 @@ const bcryptjs = require('bcryptjs')
 const { resolve } = require('path')
 const fs = require('fs')
 
-const { selectWhere } = require('../../../services/database/mysql/sqlQuery/select')
-const { justSetReference, update } = require('../../../services/database/mysql/sqlQuery/update')
+const { selectWhere } = require('../../../services/database/sqlQuery/select')
+const { justSetReference, update } = require('../../../services/database/sqlQuery/update')
 
 async function updateCar(req, res) {
   const part_object = req.params.part

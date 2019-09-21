@@ -4,7 +4,6 @@ const {
 	getAll, getWhere, parts, 
 	bots, getCar, getUser, 
 	getMyParts, adversary, confirmPassword,
-	stats
 } = require('../controllers/gets')
 
 Router.get('/getAll/:table', getAll)
@@ -12,7 +11,6 @@ Router.get('/getWhere?:query', getWhere)
 Router.get('/getAllParts', parts)
 Router.get('/myParts', getMyParts)
 Router.get('/getAllBots', bots)
-Router.get('/stats', stats)
 
 Router.get('/auth/adversary', adversary)
 Router.get('/auth/car', getCar)

@@ -1,12 +1,10 @@
 require('dotenv').config()
-require('../services/database/mongodb')
-require('../services/database/mongodb/updateStats')
 
 const express = require('express')
 const body_parser = require('body-parser')
 const cors = require('cors')
 
-const port = process.env.SERVER_PORT || 8080
+const port = process.env.PORT || 8080
 
 const { middlewarer } = require('../services/authentications/token')
 
