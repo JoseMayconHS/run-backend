@@ -322,13 +322,11 @@ Exemplo de requisição `JSON`:
 	}
 
 
-- `delete('/auth/delete?:query')` = `/auth/delete?` e uma sequência de `chave=valor`, só é necessário o nome da tabela e o id do registro. Exemplo: `...?table=users&id=2`. (**Rota protegida**)
+- `delete('/auth/delete')` = `/auth/delete` rota que apaga o usuário e o carro do banco de dados. (**Rota protegida**)
 > { result: Object }
 
-    async doRemove(req, res) {
-        const { table, id } = req.query
-    
-        const result = await remove(table, { id })
-    
-        res.status(200).json(result)
-    }
+    async function doRemove(req, res) {
+	  const result = await remove({ user: req.user, car: req.car })
+
+	  res.status(200).json(result)
+	}
