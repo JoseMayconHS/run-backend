@@ -2,7 +2,7 @@
 API desenvolvida em NodeJS (Backend do Run-Frontend).
 
 ## Projeto client-side
- - [Repositório](https://github.com/Maycon-PE/Run-Front-end "Run-Frontend").
+ - [Repositório](https://github.com/JoseMayconHS/Run-Frontend "Run-Frontend").
 
 ## Características
 - Integração com o banco de dados relacional MYSQL;
