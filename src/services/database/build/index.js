@@ -29,7 +29,7 @@ function step1(next) {
 	db.connect(err => {
 		console.info(err ? `
 	A conexão falhou!!!
-	Vefirique: 
+	Vefirique:
 	  Você criou o banco de dados? Vá ao seu SGBD e crie um banco de dados 'CREATE DATABASE *nomeDoBanco*;'; \n
 	  Suas configurações de conexão estão corretas? :/ \n
 	  Depois execute esse comando novamente`: 'Conectado')
@@ -63,7 +63,7 @@ function step2(next) {
 					'msg': 'Criando as tabelas'
 				})
 			}
-		})	
+		})
 
 	db.query(`
 		CREATE TABLE IF NOT EXISTS transmissions (
@@ -79,10 +79,10 @@ function step2(next) {
 				wall = { status: true, message: 'Tabela -transmissions- não foi criada' }
 				finish()
 			} else {
-				bar.tick()	
+				bar.tick()
 			}
-		})	
-		
+		})
+
 	db.query(`
 		CREATE TABLE IF NOT EXISTS whells (
 			id int auto_increment primary key,
@@ -100,7 +100,7 @@ function step2(next) {
 				bar.tick()
 			}
 		})
-		
+
 	db.query(`
 		CREATE TABLE IF NOT EXISTS cylinders (
 			id int auto_increment primary key,
@@ -177,8 +177,8 @@ function step2(next) {
 			} else {
 				bar.tick()
 			}
-		})	
-		
+		})
+
 	db.query(`
 		CREATE TABLE IF NOT EXISTS users (
 			id int auto_increment primary key,
@@ -190,12 +190,12 @@ function step2(next) {
 			country varchar(20) not null,
 			xp bigint default 2,
 			limit_xp bigint default 200,
-			gold int default 100000,
+			gold int default 50000,
 			nvl tinyint default 1,
 			src varchar(3000) default 'pilots/default' ,
 			car_id int,
 			foreign key (car_id) references cars (id),
-			unique key (car_id) 
+			unique key (car_id)
 		)
 	`, [], err => {
 		if (err) {
@@ -204,13 +204,13 @@ function step2(next) {
 		} else {
 			bar.tick()
 		}
-	})		
+	})
 
 	next()
 }
 
 function step3(next) {
-	
+
 	cars.forEach(({ model, engine, transmission, whells, cylinder, protection}, indice) => {
 		db.query(`
 			INSERT INTO cars (model, engine, transmission, whells, cylinder, protection, bot) VALUES (?, ?, ?, ?, ?, ?, 1)
@@ -221,7 +221,7 @@ function step3(next) {
 				} else {
 					bar.tick({
 						'msg': 'Inserindo carros'
-					})	
+					})
 				}
 			})
 	})
@@ -236,7 +236,7 @@ function step3(next) {
 				} else {
 					bar.tick({
 						'msg': 'Inserindo pilotos'
-					})	
+					})
 				}
 			})
 	})
@@ -251,7 +251,7 @@ function step3(next) {
 				} else {
 					bar.tick({
 						'msg': 'Inserindo motores'
-					})	
+					})
 				}
 			})
 	})
@@ -266,8 +266,8 @@ function step3(next) {
 				} else {
 					bar.tick({
 						'msg': 'Inserindo transmissões'
-					})	
-				}		
+					})
+				}
 			})
 	})
 
@@ -281,7 +281,7 @@ function step3(next) {
 				} else {
 					bar.tick({
 						'msg': 'Inserindo rodas'
-					})	
+					})
 				}
 			})
 	})
@@ -296,7 +296,7 @@ function step3(next) {
 				} else {
 					bar.tick({
 						'msg': 'Inserindo cilindros'
-					})	
+					})
 				}
 		})
 	})
@@ -311,7 +311,7 @@ function step3(next) {
 				} else {
 					bar.tick({
 						'msg': 'Inserindo proteções'
-					})	
+					})
 				}
 		})
 	})
@@ -373,11 +373,11 @@ function step4() {
 }
 
 function finish() {
-	console.log('\n', 
-		{ status: wall.status? 'Ocorreu um erro (DELETE e CRIE o banco novamente)': 'OK', 
-			messages: wall.status? wall.message : 
-				start? 'Inicializando' : 
-					code? 'Abrindo o VsCode...' : 'Execute npm start ou yarn start' 
+	console.log('\n',
+		{ status: wall.status? 'Ocorreu um erro (DELETE e CRIE o banco novamente)': 'OK',
+			messages: wall.status? wall.message :
+				start? 'Inicializando' :
+					code? 'Abrindo o VsCode...' : 'Execute npm start ou yarn start'
 		})
 	bar.curr !== total && (() => {
 			console.log('\x1b[41m', '\x1b[37m', 'Banco de dados incompleto!', '\x1b[0m')

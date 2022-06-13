@@ -45,10 +45,10 @@ async function profile(req, res) {
   if (user.src !== 'pilots/default') fs.unlinkSync(resolve(destination, `${user.src}.jpg`))
 
   await sharp(path)
-    .resize(180, 180) 
+    .resize(180, 180)
     .jpeg({ quality: 70 })
     .toFile(resolve(destination, 'users', `${filename}.jpg`))
-  
+
   fs.unlinkSync(path)
 
   if (!await update('users', { src: `users/${filename}` }, { id: req.user })) return res.status(200).json({ status: false, message: 'Não foi possivel mudar a referência à nova imagem!' })
@@ -90,7 +90,7 @@ async function changeInfo(req, res) {
   let { field, value } = req.body
 
   if (field === 'password') value = await bcryptjs.hash(value, 10)
-  
+
   if (!await update('users', { [field]: value }, { id: req.user })) return res.status(200).json({ status: false })
 
   try {

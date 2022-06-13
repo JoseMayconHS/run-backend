@@ -2,8 +2,8 @@
   "name": "run-back-end",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/Maycon-PE/Run-Back-end.git",
-  "author": "Maycon Silva <mayconprodigio@hotmail.com>",
+  "repository": "https://github.com/JoseMayconHS/run-backend.git",
+  "author": "Maycon Silva <jose.maycon.hermogenes.silva@gmail.com>",
   "license": "MIT",
   "scripts": {
     "start": "node src/server/index.js",
@@ -14,19 +14,19 @@
     "database-code-dev": "node src/services/database/build -code && nodemon src/server/index.js"
   },
   "dependencies": {
-    "bcryptjs": "2.4.3",
-    "body-parser": "1.19.0",
-    "cors": "2.8.5",
-    "dotenv": "8.1.0",
-    "express": "4.17.1",
-    "jsonwebtoken": "8.5.1",
-    "multer": "1.4.2",
-    "mysql2": "1.6.5",
-    "sharp": "0.22.1"
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^2.3.3",
+    "sharp": "^0.30.6"
   },
   "devDependencies": {
-    "cross-spawn": "6.0.5",
-    "nodemon": "1.19.1",
-    "progress": "2.0.3"
+    "cross-spawn": "^6.0.5",
+    "nodemon": "^1.19.1",
+    "progress": "^2.0.3"
   }
 }

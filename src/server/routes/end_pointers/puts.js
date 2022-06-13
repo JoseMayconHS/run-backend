@@ -5,9 +5,9 @@ const config = require('../../../services/upload')
 
 const upload = multer(config)
 
-const { 
-	updateCar, changePart, profile, 
-	withdrawal, winOrLose, changeInfo 
+const {
+	updateCar, changePart, profile,
+	withdrawal, winOrLose, changeInfo
 } = require('../controllers/puts')
 
 Router.put('/auth/car/:part', updateCar)
