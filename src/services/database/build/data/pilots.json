@@ -38,7 +38,7 @@
 		{ "nickname": "*Dêdê*", "genre": "Masculino", "country": "Brasil", "nvl": 36, "src": "pilots/dede", "car_id": 36 },
 		{ "nickname": "*Maycon*", "genre": "Masculino", "country": "Brasil", "nvl": 37, "src": "pilots/maycon", "car_id": 37 },
 		{ "nickname": "*Malvado*", "genre": "Masculino", "country": "Brasil", "nvl": 38, "src": "pilots/malvado", "car_id": 38 },
-		{ "nickname": "*Rafinha*", "genre": "Masculino", "country": "Brasil", "nvl": 39, "src": "pilots/rafinha", "car_id": 39 },
+		{ "nickname": "*Baby*", "genre": "Masculino", "country": "Estados Unidos", "nvl": 39, "src": "pilots/baby", "car_id": 39 },
 		{ "nickname": "*Felipe Massa*", "genre": "Masculino", "country": "Brasil", "nvl": 40, "src": "pilots/massa", "car_id": 40 },
 		{ "nickname": "*Letty*", "genre": "Feminino", "country": "Estados Unidos", "nvl": 41, "src": "pilots/letty", "car_id": 41 },
 		{ "nickname": "*Bombinha*", "genre": "Masculino", "country": "Brasil", "nvl": 42, "src": "pilots/bombinha", "car_id": 42 },
