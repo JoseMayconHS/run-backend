@@ -18,7 +18,7 @@ exports.production = multer({
 
 			const filename = `profile_${ req.user }_${ ext }`
 
-			const folder = 'run-backend/'
+			const folder = 'run-backend/users/'
 
 			cb(null, folder + filename);
 		}

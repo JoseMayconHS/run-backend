@@ -25,11 +25,10 @@ API desenvolvida em NodeJS (Backend do Run-Frontend).
   - Encripta e compara as senhas `bcryptjs`
   - Modela as requisições `body-parser`
   - Libera acesso externo `cors`
-  - Upload de imagens `multer`
-  - Redimenciona as imagens `sharp`
+  - Upload de imagens na AWS S3 `multer-s3`
 - Somente desenvolvimento
   - Executa algo na linha de comando `cross-spawn`
-  - Reenstarta a aplicação após alguma alteração `nodemon`.
+  - Reinicializa a aplicação após alguma alteração `nodemon`.
   - Animação da barra de progresso ao construir a base de dados `progress`
 
 ## Passos
@@ -43,6 +42,13 @@ API desenvolvida em NodeJS (Backend do Run-Frontend).
   - execute `yarn database-code-dev` ou `npm run database-code-dev` para preparar o banco, abrir o VsCode e inicializar a aplicação! (**Necessita ter o vsCode instalado colocado no path do sistema**).
 
 5. Execute `yarn dev` ou `npm dev` no terminal para começar (**Se não já estiver inicializado**).
+
+### Terminal
+<br>
+
+![Oi](https://s3.sa-east-1.amazonaws.com/jmayconhs.repos/run-backend/readme/script_database.PNG)
+
+--------
 
 ## Rotas
 
