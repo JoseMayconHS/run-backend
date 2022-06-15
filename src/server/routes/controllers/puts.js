@@ -1,9 +1,9 @@
-const sharp = require("sharp");
 const bcryptjs = require("bcryptjs");
-const { resolve } = require("path");
-const fs = require("fs");
+const { DeleteObjectCommand } = require('@aws-sdk/client-s3')
 
 const { selectWhere } = require("../../../services/database/sqlQuery/select");
+const { s3 } = require("../../../services/upload");
+
 const {
   justSetReference,
   update,
@@ -23,13 +23,13 @@ async function updateCar(req, res) {
   )
     return res.status(200).json({
       status: false,
-      message: "Não foi possivel fazer a atualização!",
+      message: "Não foi possível fazer a atualização!",
     });
 
   if (!(await update("users", { gold: descont }, { id: req.user })))
     return res.status(200).json({
       status: false,
-      message: "Não foi possivel descontar no seu dinheiro!",
+      message: "Não foi possível descontar no seu dinheiro!",
     });
 
   const [{ gold }] = await selectWhere("users", { id: req.user }, "gold");
@@ -59,26 +59,19 @@ async function changePart(req, res) {
 }
 
 async function profile(req, res) {
-  const { filename, destination, path } = req.file;
+  const { location } = req.file;
 
   const [user] = await selectWhere("users", { id: req.user }, "src");
 
   if (user.src !== "pilots/default") {
     try {
-      fs.unlinkSync(resolve(destination, `${user.src}.jpg`));
+      const command = await DeleteObjectCommand(user.src)
+
+      await s3.send(command)
     } catch {}
   }
 
-  await sharp(path)
-    .resize(180, 180)
-    .jpeg({ quality: 70 })
-    .toFile(resolve(destination, "users", `${filename}.jpg`));
-
-  try {
-    fs.unlinkSync(path);
-  } catch {}
-
-  if (!(await update("users", { src: `users/${filename}` }, { id: req.user })))
+  if (!(await update("users", { src: location }, { id: req.user })))
     return res.status(200).json({
       status: false,
       message: "Não foi possível mudar a referência à nova imagem!",

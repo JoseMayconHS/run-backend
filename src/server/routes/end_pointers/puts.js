@@ -1,9 +1,6 @@
 const Router = require('express').Router()
-const multer = require('multer')
 
-const config = require('../../../services/upload')
-
-const upload = multer(config)
+const upload = require('../../../services/upload')
 
 const {
 	updateCar, changePart, profile,
@@ -13,7 +10,7 @@ const {
 Router.put('/auth/car/:part', updateCar)
 
 Router.put('/auth/changePart/:table', changePart)
-Router.put('/auth/profile', upload.single('image'), profile )
+Router.put('/auth/profile', upload.production.single('image'), profile )
 Router.put('/auth/withdrawal', withdrawal)
 Router.put('/auth/winOrLose', winOrLose)
 Router.put('/auth/info', changeInfo)
