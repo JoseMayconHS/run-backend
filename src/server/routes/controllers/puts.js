@@ -116,7 +116,7 @@ async function winOrLose(req, res) {
     (() => {
       do {
         before_nvl++;
-        before_limit_xp *= 2;
+        before_limit_xp *= 3;
       } while (newXp > before_limit_xp && before_nvl < 50);
     })();
 

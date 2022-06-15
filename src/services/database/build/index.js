@@ -238,7 +238,7 @@ function step2(next) {
 			country varchar(20) not null,
 			xp bigint default 2,
 			limit_xp bigint default 200,
-			gold int default 50000,
+			gold int default 200000,
 			nvl tinyint default 1,
 			src varchar(3000) default 'pilots/default' ,
 			car_id int,
