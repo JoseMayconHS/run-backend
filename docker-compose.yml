@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7.38
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      - MYSQL_DATABASE=run
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - run-network
+    volumes:
+      - .db/data:/var/lib/mysql
+      - ./docker/init.sql:/data/application/init.sql
+    command: --init-file /data/application/init.sql
+
+  api:
+    build: .
+    depends_on:
+      - db
+    restart: on-failure
+    ports:
+      - "3000:3000"
+    command: yarn database-start
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_NAME=run
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=root
+      - JWT_SECRET_WORD=abc
+      - AWS_BUCKET_NAME=[]
+      - AWS_ACCESS_KEY_ID=[]
+      - AWS_SECRET_ACCESS_KEY=[]
+      - AWS_DEFAULT_REGION=[]
+    networks:
+      - run-network
+
+networks:
+  run-network:
+    driver: bridge

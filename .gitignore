@@ -13,3 +13,6 @@ yarn-error.log*
 # environment variables
 .env
 *.csv
+
+# Docker
+.db

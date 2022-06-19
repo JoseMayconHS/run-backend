@@ -49,6 +49,12 @@ API desenvolvida em NodeJS (Backend do Run-Frontend).
 
 ![Oi](https://s3.sa-east-1.amazonaws.com/jmayconhs.repos/run-backend/readme/script_database.PNG)
 
+
+## Com Docker Compose
+
+1. **(Opcional)** Configurar as variáveis de ambiente para autenticação na AWS no arquivo `docker-compose.yml`, só irá dar erro ao alterar a foto no frontend.
+
+2. Com **docker** e **docker compose** instalados, executar `docker-compose up -d --build` no terminal dentro da pasta do projeto.
 --------
 
 ## Rotas
