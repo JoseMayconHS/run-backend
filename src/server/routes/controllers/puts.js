@@ -1,5 +1,9 @@
 const bcryptjs = require("bcryptjs");
-const { DeleteObjectCommand } = require('@aws-sdk/client-s3')
+const { DeleteObjectCommand, GetObjectCommand } = require('@aws-sdk/client-s3')
+const { Upload } = require('@aws-sdk/lib-storage')
+const sharp = require('sharp')
+const { uuid } = require('uuidv4')
+const { Blob } = require('buffer')
 
 const { selectWhere } = require("../../../services/database/sqlQuery/select");
 const { s3 } = require("../../../services/upload");
@@ -59,27 +63,103 @@ async function changePart(req, res) {
 }
 
 async function profile(req, res) {
-  const { location } = req.file;
+  try {
+    const Bucket = process.env.AWS_BUCKET_NAME
 
-  const [user] = await selectWhere("users", { id: req.user }, "src");
+    const { location, key } = req.file;
 
-  if (user.src !== "pilots/default") {
-    try {
-      const command = await DeleteObjectCommand(user.src)
+    const [user] = await selectWhere("users", { id: req.user }, "src");
 
-      await s3.send(command)
-    } catch {}
+    if (user.src !== "pilots/default") {
+      try {
+        const Key = `${ user.src.split(`.com/`)[1] }`
+
+        const command = new DeleteObjectCommand({
+          Bucket,
+          Key
+        })
+
+        await s3.send(command)
+      } catch(e) {
+        console.error('DeleteObjectCommand Error: ', e.message)
+      }
+    }
+
+    const without_filename = location.split(`profile`)[0]
+    const [bucket_url, folder] = without_filename.split(`.com/`)
+    const key_resized = `${ folder }profile_${ req.user }_${ uuid() }.jpg`
+
+    const getCommand = new GetObjectCommand({
+      Bucket,
+      Key: key,
+      ResponseContentType: 'application/octet-stream'
+    })
+
+    const image = await s3.send(getCommand)
+
+    await new Promise(async resolve => {
+      let chunks = []
+
+      image.Body.on('data', chunk => {
+        chunks.push(chunk)
+      })
+
+      image.Body.on('error', err => {
+        console.log('error ', err)
+        resolve({
+          status: 500
+        })
+      })
+
+      image.Body.on('end', async () => {
+
+        const blob = new Blob(chunks)
+
+        const resized = await sharp(Buffer.from(await blob.arrayBuffer()))
+          .resize({ width: 180, height: 180, fit: 'inside', withoutEnlargement: true })
+          .jpeg({ quality: 100, progressive: true })
+          .toBuffer()
+
+        const parallelUploads3 = new Upload({
+          client: s3,
+          params: {
+            Bucket, ContentType: 'image/jpeg',
+            Key: key_resized, ACL: 'public-read',  Body: resized
+          },
+          tags: [
+            /*...*/
+          ], // optional tags
+          queueSize: 4, // optional concurrency configuration
+          partSize: 1024 * 1024 * 10, // optional size of each part, in bytes, at least 5MB
+          leavePartsOnError: false, // optional manually handle dropped parts
+        });
+
+        await parallelUploads3.done();
+
+        const deleteCommand = new DeleteObjectCommand({
+          Bucket,
+          Key: key
+        })
+
+        await s3.send(deleteCommand)
+
+        resolve()
+      })
+    })
+
+    const src = bucket_url + '.com/' + key_resized
+
+    if (!(await update("users", { src }, { id: req.user })))
+      return res.status(200).json({
+        status: false,
+        message: "Não foi possível mudar a referência à nova imagem!",
+      });
+
+    res.status(200).json({ status: true, src  });
+  } catch (error) {
+    console.log(error.message)
+    res.status(500).send()
   }
-
-  if (!(await update("users", { src: location }, { id: req.user })))
-    return res.status(200).json({
-      status: false,
-      message: "Não foi possível mudar a referência à nova imagem!",
-    });
-
-  const [{ src }] = await selectWhere("users", { id: req.user }, "src");
-
-  res.status(200).json({ status: true, src });
 }
 
 async function withdrawal(req, res) {
