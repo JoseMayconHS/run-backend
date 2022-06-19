@@ -25,6 +25,7 @@ API desenvolvida em NodeJS (Backend do Run-Frontend).
   - Encripta e compara as senhas `bcryptjs`
   - Modela as requisições `body-parser`
   - Libera acesso externo `cors`
+  - Resize de imagens `sharp`
   - Upload de imagens na AWS S3 `multer-s3`
 - Somente desenvolvimento
   - Executa algo na linha de comando `cross-spawn`
