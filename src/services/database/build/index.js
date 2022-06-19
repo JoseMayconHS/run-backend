@@ -236,7 +236,7 @@ function step2(next) {
 			nickname varchar(15) unique not null,
 			genre varchar(20) not null,
 			country varchar(20) not null,
-			xp bigint default 2,
+			xp bigint default 0,
 			limit_xp bigint default 200,
 			gold int default 200000,
 			nvl tinyint default 1,
