@@ -7,6 +7,11 @@ API desenvolvida em NodeJS (Backend do Run-Frontend).
 - [Repositório](https://github.com/JoseMayconHS/Run-Frontend "Run-Frontend").
 - [Projeto online](https://run-frontend.vercel.app/)
 
+## Acesso único
+Acesso único para simplificar o teste, seja em desenvolvimento ou em produção(Portfólio)
+- Email: foobar@run.com
+- Senha: 123456
+
 ## Características
 
 - Integração com o banco de dados relacional MYSQL;
