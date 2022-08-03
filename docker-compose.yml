@@ -7,8 +7,8 @@ services:
     ports:
       - '3306:3306'
     environment:
-      - MYSQL_DATABASE=run
-      - MYSQL_ROOT_PASSWORD=root
+      - "MYSQL_DATABASE=${DATABASE_NAME}"
+      - "MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}"
     networks:
       - run-network
     volumes:
@@ -26,14 +26,14 @@ services:
     command: yarn database-start
     environment:
       - DATABASE_HOST=db
-      - DATABASE_NAME=run
+      - "DATABASE_NAME=${DATABASE_NAME}"
       - DATABASE_USER=root
-      - DATABASE_PASSWORD=root
-      - JWT_SECRET_WORD=abc
-      - AWS_BUCKET_NAME=[]
-      - AWS_ACCESS_KEY_ID=[]
-      - AWS_SECRET_ACCESS_KEY=[]
-      - AWS_DEFAULT_REGION=[]
+      - "DATABASE_PASSWORD=${DATABASE_PASSWORD}"
+      - "JWT_SECRET_WORD=${JWT_SECRET_WORD}"
+      - "AWS_BUCKET_NAME=${AWS_BUCKET_NAME}"
+      - "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}"
+      - "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
+      - "AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}"
     networks:
       - run-network
 
